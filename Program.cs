@@ -1,7 +1,25 @@
+using MySql.Data.MySqlClient;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+// MariaDB baðlantýsýný kontrol et
+string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+try
+{
+    using (var connection = new MySqlConnection(connectionString))
+    {
+        connection.Open();
+        Console.WriteLine("Database baðlantýsý baþarýlý!");
+    }
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"Database baðlantý hatasý: {ex.Message}");
+}
 
 var app = builder.Build();
 

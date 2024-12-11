@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="app_start\**" />
+    <Content Remove="app_start\**" />
+    <EmbeddedResource Remove="app_start\**" />
+    <None Remove="app_start\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Update="Pages\home\Index.cshtml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
@@ -15,7 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="app_start\" />
+    <PackageReference Include="MySql.Data" Version="9.1.0" />
+    <PackageReference Include="MySqlConnector" Version="2.4.0" />
   </ItemGroup>
 
 </Project>
