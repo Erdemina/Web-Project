@@ -5,7 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 
-// MariaDB baðlantýsýný kontrol et
+// MariaDB baï¿½lantï¿½sï¿½nï¿½ kontrol et
 string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 try
@@ -13,12 +13,12 @@ try
     using (var connection = new MySqlConnection(connectionString))
     {
         connection.Open();
-        Console.WriteLine("Database baðlantýsý baþarýlý!");
+        Console.WriteLine("Database baï¿½lantï¿½sï¿½ baï¿½arï¿½lï¿½!");
     }
 }
 catch (Exception ex)
 {
-    Console.WriteLine($"Database baðlantý hatasý: {ex.Message}");
+    Console.WriteLine($"Database baï¿½lantï¿½ hatasï¿½: {ex.Message}");
 }
 
 var app = builder.Build();

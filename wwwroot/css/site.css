@@ -247,5 +247,9 @@ body {
         background-color: #f8f9fa;
         color: #007bff;
     }
+  footer{
+      position:absolute;
+      bottom:0px;
+  }
 
 
