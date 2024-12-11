@@ -1,55 +1,68 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Web_Project</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Web_Project.styles.css" asp-append-version="true" />
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] - Web_Project</title>
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/Web_Project.styles.css" asp-append-version="true" />
 	<link rel="stylesheet" href="css/about.css" />
 	<link rel="stylesheet" href="css/contact.css" />
+	<link rel="stylesheet" href="css/site.css" />
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+
+
 </head>
 <body>
-<header>
-    <div class="navbar">
-		<div class="logo">
-			<a href="index.html"><img src="./media/logo.png" alt="Logo"></a>
+	<header>
+		<div class="navbar">
+			<div class="logo">
+				<a href="index.html"><img src="./media/logo.png" alt="Logo"></a>
 				<a href="/home/about">About</a>
 				<a href="/home/contact">Contact</a>
-		</div>
+			</div>
 
-		<div class="search-bar">
-			<div class="search-field">
-				<span>Destination</span>
-				<input list="destinations" name="destination" id="destination" placeholder="Select a region">
-				<datalist id="destinations">
-				
-				</datalist>
+			<div class="search-bar">
+				<div class="search-field">
+					<span>Destination</span>
+					<input list="destinations" name="destination" id="destination" placeholder="Select a region">
+					<datalist id="destinations">
+					</datalist>
+				</div>
+				<div class="search-field">
+					<span>Check-in</span>
+					<input type="date" placeholder="Add date">
+				</div>
+				<div class="search-field">
+					<span>Check-out</span>
+					<input type="date" placeholder="Add date">
+				</div>
+				<div class="search-field">
+					<span>Guests</span>
+					<input type="number" placeholder="Add guests" min="1">
+				</div>
+				<button class="search-button"></button>
+				<nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+
+					<div class="dropdown ml-auto">
+						<button class="btn btn-outline-secondary dropdown-toggle" type="button" id="profileMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+							<i class="fas fa-user-circle"></i> Profile
+						</button>
+						<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileMenuButton">
+							<li><a class="dropdown-item" href="/home/login">Oturum Aç</a></li>
+							<li><a class="dropdown-item" href="/home/signup">Kaydol</a></li>
+						</ul>
+
+					</div>
+				</nav>
 			</div>
-			<div class="search-field">
-				<span>Check-in</span>
-				<input type="date" placeholder="Add date">
-			</div>
-			<div class="search-field">
-				<span>Check-out</span>
-				<input type="date" placeholder="Add date">
-			</div>
-			<div class="search-field">
-				<span>Guests</span>
-				<input type="number" placeholder="Add guests" min="1">
-			</div>
-			<button class="search-button"></button>
-		</div>
-		<div class="profil">
-			<a href="profile.html">Profile</a>
-		</div>
+	</header>
+	<div class="container">
+		<main role="main" class="pb-3">
+			@RenderBody()
+		</main>
 	</div>
-</header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 </body>
 </html>

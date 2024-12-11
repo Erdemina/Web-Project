@@ -230,3 +230,23 @@ body {
     .profil a:hover {
         color: #309657;
     }
+.navbar .dropdown-toggle {
+    display: flex;
+    align-items: center;
+}
+
+.navbar .dropdown-menu {
+    min-width: 200px;
+}
+
+.navbar .dropdown-item {
+    padding: 10px 20px;
+}
+
+    .navbar .dropdown-item:hover {
+        background-color: #f8f9fa;
+        color: #007bff;
+    }
+
+
+
