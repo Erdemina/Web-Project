@@ -5,7 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 
-// MariaDB ba�lant�s�n� kontrol et
+// MariaDB bağlantısını kontrol et
 string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 try
@@ -13,12 +13,12 @@ try
     using (var connection = new MySqlConnection(connectionString))
     {
         connection.Open();
-        Console.WriteLine("Database ba�lant�s� ba�ar�l�!");
+        Console.WriteLine("Database bağlantısı başarılı!");
     }
 }
 catch (Exception ex)
 {
-    Console.WriteLine($"Database ba�lant� hatas�: {ex.Message}");
+    Console.WriteLine($"Database bağlantı hatası: {ex.Message}");
 }
 
 var app = builder.Build();
@@ -27,7 +27,6 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -38,6 +37,12 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+// Kökte (/) /Home.cshtml'e yönlendirme
+app.MapGet("/", (context) =>
+{
+    context.Response.Redirect("/Home");
+    return Task.CompletedTask;
+});
 
 app.MapRazorPages();
 
