@@ -1,0 +1,146 @@
+﻿@page
+@model Web_Project.Pages.Houses.House1Model
+@{
+    ViewData["Title"] = "House Page";
+}
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+
+
+<link rel="stylesheet" href="/css/house1.css" />
+<script src="/js/house1.js"></script>
+<script src="/js/site.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+<div class="house-container">
+    
+    <div class="photo-slider">
+        <div class="swiper">
+            <div class="swiper-wrapper">
+                @if (Model.HouseDetails?.Images != null && Model.HouseDetails.Images.Any())
+                {
+                    foreach (var image in Model.HouseDetails.Images)
+                    {
+                        <div class="swiper-slide">
+                            <img src="@image.Url" alt="@Model.HouseDetails.Name Fotoğraf">
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p>Fotoğraf bulunamadı.</p>
+                }
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+    </div>
+
+    
+    <div class="reservation-panel">
+        <h3>@Model.HouseDetails.Price.ToString("N0") ₺ / gece</h3>
+        <form>
+            <label for="checkin">GİRİŞ</label>
+            <input type="text" id="checkin" name="checkin" placeholder="Giriş Tarihi" readonly>
+
+            <label for="checkout">ÇIKIŞ</label>
+            <input type="text" id="checkout" name="checkout" placeholder="Çıkış Tarihi" readonly>
+
+            <label for="guests">MİSAFİR SAYISI</label>
+            <select id="guests" name="guests">
+                <option value="1">1 misafir</option>
+                <option value="2">2 misafir</option>
+                <option value="3">3 misafir</option>
+            </select>
+
+            <button type="submit" class="reserve-btn">Rezerve edin</button>
+
+            <p>Henüz sizden tahsilat yapılmayacak</p>
+            <div class="price-details">
+                <p>@Model.HouseDetails.Price.ToString("N0") ₺ x <span id="total-nights">0</span> gece</p>
+                <p>Toplam: <span id="total-price">0</span> ₺</p>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div class="details">
+    <h2>Bu Mekan Size Neler Sunuyor?</h2>
+    <ul class="features">
+        @if (Model.HouseDetails?.Features != null && Model.HouseDetails.Features.Any())
+        {
+            foreach (var feature in Model.HouseDetails.Features)
+            {
+                <li>@feature</li>
+            }
+        }
+        else
+        {
+            <li>Özellikler bulunamadı.</li>
+        }
+    </ul>
+
+    <h3>Uygunluk Takvimleri</h3>
+    <div class="calendar-container">
+        <div id="calendar1" class="calendar"></div>
+        <div id="calendar2" class="calendar"></div>
+    </div>
+</div>
+
+
+<script>
+    
+    flatpickr("#calendar1", {
+        mode: "range",
+        inline: true,
+        dateFormat: "Y-m-d",
+        minDate: "today",
+        onChange: function (selectedDates) {
+            if (selectedDates.length === 2) {
+                document.getElementById('checkin').value = selectedDates[0].toISOString().split('T')[0];
+                document.getElementById('checkout').value = selectedDates[1].toISOString().split('T')[0];
+            }
+        },
+    });
+
+    
+    flatpickr("#calendar2", {
+        mode: "range",
+        inline: true,
+        dateFormat: "Y-m-d",
+        minDate: "today",
+        onChange: function (selectedDates) {
+            if (selectedDates.length === 2) {
+                document.getElementById('checkin').value = selectedDates[0].toISOString().split('T')[0];
+                document.getElementById('checkout').value = selectedDates[1].toISOString().split('T')[0];
+            }
+        },
+    });
+
+    
+    var swiper = new Swiper('.swiper', {
+        slidesPerView: 3,
+        spaceBetween: 10,
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        loop: true,
+        autoplay: {
+            delay: 3000,
+            disableOnInteraction: false,
+        },
+        breakpoints: {
+            1024: { slidesPerView: 3, spaceBetween: 20 },
+            768: { slidesPerView: 2, spaceBetween: 15 },
+            480: { slidesPerView: 1, spaceBetween: 10 },
+        },
+    });
+</script>
