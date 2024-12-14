@@ -1,9 +1,19 @@
+using Microsoft.EntityFrameworkCore;
 using MySql.Data.MySqlClient;
+using Web_Project.Data; // AppDbContext için namespace
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add services to the container
 builder.Services.AddRazorPages();
+
+// Add session support
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Oturum süresi (30 dakika)
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true; // GDPR uyumu için gerekli
+});
 
 // MariaDB bağlantısını kontrol et
 string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -21,9 +31,13 @@ catch (Exception ex)
     Console.WriteLine($"Database bağlantı hatası: {ex.Message}");
 }
 
+// Add AppDbContext for Entity Framework Core
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))); // MySQL/MariaDB bağlantısı
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configure the HTTP request pipeline
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
@@ -34,6 +48,9 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+// Enable session
+app.UseSession();
 
 app.UseAuthorization();
 
