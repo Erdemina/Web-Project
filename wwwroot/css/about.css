@@ -1,67 +1,105 @@
+/* Genel Ayarlar */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    cursor: default;
+}
+
 #about {
-    padding: 50px 20px;
-    background-color: #f4f4f4;
+    padding: 60px 20px;
+    background: linear-gradient(135deg, #ffffff, #e9f2fb); /* Hafif mavi arka plan */
     text-align: center;
-    font-family: Arial, sans-serif;
 }
 
 .about-container {
-    max-width: 800px;
+    max-width: 1000px;
     margin: 0 auto;
-    color: #333;
+    color: #212529;
+    padding: 30px;
 }
 
     .about-container h2 {
-        font-size: 2.5em;
+        font-size: 3rem;
+        color: #0056b3; /* Koyu mavi baþlýk */
         margin-bottom: 20px;
-        color: #007bff;
+        font-weight: bold;
     }
 
     .about-container p {
-        font-size: 1.2em;
+        font-size: 1.2rem;
         line-height: 1.8;
-        margin-bottom: 20px;
-        color: #555;
+        color: #495057;
+        margin-bottom: 30px;
+        text-align: justify;
     }
 
+/* Kartlar */
 .about-features {
     display: flex;
-    justify-content: space-around;
-    margin-top: 30px;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 40px;
 }
 
 .feature {
     flex: 1;
-    margin: 10px;
-    padding: 20px;
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 30px 20px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
 }
 
+    .feature:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .feature i {
+        font-size: 3rem;
+        color: #0056b3; /* Koyu mavi ikon */
+        margin-bottom: 15px;
+        transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .feature:hover i {
+        color: #003d7e; /* Daha koyu mavi hover efekti */
+        transform: scale(1.2);
+    }
+
     .feature h3 {
-        font-size: 1.5em;
-        margin-bottom: 10px;
-        color: #007bff;
+        font-size: 1.8rem;
+        color: #0056b3; /* Koyu mavi baþlýk */
+        margin-bottom: 15px;
     }
 
     .feature p {
-        font-size: 1em;
-        color: #666;
+        font-size: 1rem;
+        color: #6c757d;
+        line-height: 1.6;
     }
 
+/* Ekibimiz Bölümü */
 .about-team {
-    margin-top: 40px;
+    margin-top: 50px;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
     .about-team h3 {
-        font-size: 2em;
-        margin-bottom: 10px;
-        color: #007bff;
+        font-size: 2.5rem;
+        color: #0056b3; /* Koyu mavi baþlýk */
+        margin-bottom: 15px;
+        font-weight: bold;
     }
 
     .about-team p {
-        font-size: 1.2em;
-        color: #555;
+        font-size: 1.2rem;
+        color: #495057;
     }
