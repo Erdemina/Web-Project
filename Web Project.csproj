@@ -15,9 +15,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\media\houses\h1\1.jpeg" />
-    <None Include="wwwroot\media\houses\h2\1.jpeg" />
-    <None Include="wwwroot\media\houses\h3\1.jpeg" />
+    <None Include="wwwroot\media\houses\h_1\1.jpeg" />
+    <None Include="wwwroot\media\houses\h_2\1.jpeg" />
+    <None Include="wwwroot\media\houses\h_3\1.jpeg" />
   </ItemGroup>
 
   <ItemGroup>
