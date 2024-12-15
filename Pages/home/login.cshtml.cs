@@ -6,7 +6,7 @@ using System.Text;
 using Web_Project.Data;
 using Web_Project.models;
 
-namespace Web_Project.Pages
+namespace Web_Project.Pages.home
 {
     public class LoginModel : PageModel
     {
@@ -57,7 +57,7 @@ namespace Web_Project.Pages
             HttpContext.Session.SetString("Username", user.Username);
 
             // Giriş başarılı
-            return RedirectToPage("/home"); // Başarılı giriş sonrası yönlendirme
+            return RedirectToPage("/Home/Index"); // Başarılı giriş sonrası yönlendirme
         }
 
         private bool VerifyPassword(string password, string storedHash)

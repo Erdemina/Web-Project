@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Web_Project.Pages
+namespace Web_Project.Pages.home
 {
     public class LogoutModel : PageModel
     {
@@ -11,7 +11,7 @@ namespace Web_Project.Pages
             HttpContext.Session.Clear();
 
             // Ana sayfaya yönlendirme
-            return RedirectToPage("/home");
+            return RedirectToPage("/Home/Index");
         }
     }
 }

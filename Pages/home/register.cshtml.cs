@@ -5,7 +5,7 @@ using System.Text;
 using Web_Project.Data;
 using Web_Project.models;
 
-namespace Web_Project.Pages
+namespace Web_Project.Pages.home
 {
     public class RegisterModel : PageModel
     {
@@ -54,7 +54,7 @@ namespace Web_Project.Pages
             _context.SaveChanges();
 
             // Başarılı işlem sonrası yönlendirme
-            return RedirectToPage("/Success");
+            return RedirectToPage("/Success/Index");
         }
 
         private string HashPassword(string password)
