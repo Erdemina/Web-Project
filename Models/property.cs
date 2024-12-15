@@ -21,6 +21,9 @@ namespace Web_Project.Models
 
         public float rating { get; set; }
 
+        [Column ("last_views")]
+        public int views { get; set; }
+
         [Column ("created_at")]
         public DateTime CreatedAt { get; set; }
     }
