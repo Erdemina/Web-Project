@@ -37,7 +37,7 @@ namespace Web_Project.Pages.home
             }
 
             // Kullanıcıyı email ile veritabanında ara
-            var user = _context.Users.FirstOrDefault(u => u.Email == Email);
+            var user = _context.Users.FirstOrDefault(u => u.Email == Email || u.Username == Email);
 
             if (user == null)
             {
