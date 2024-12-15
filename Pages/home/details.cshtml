@@ -1,0 +1,19 @@
+﻿@page "{id:int}"
+@model Web_Project.Pages.Home.DetailsModel
+@{
+    ViewData["Title"] = "Property Details";
+}
+
+<div class="post-details">
+    <div class="post-image">
+        <img src="~/media/houses/h_@Model.Property.propid/1.jpeg" alt="Property Image">
+    </div>
+    <div class="post-text">
+        <h2>@Model.Property.title</h2>
+        <h3>Location: @Model.Property.location</h3>
+        <div class="rating">★ @Model.Property.rating</div>
+        <p class="date">Since @Model.Property.CreatedAt.Year</p>
+        <p class="price">@Model.Property.pricenight ₺ night</p>
+        <p class="views">Last week seen @ViewData["Last7DaysViews"] times</p>
+    </div>
+</div>
