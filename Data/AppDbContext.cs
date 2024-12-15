@@ -25,7 +25,13 @@ namespace Web_Project.Data
                 entity.Property(u => u.Username).IsRequired().HasMaxLength(50);
                 entity.Property(u => u.Email).IsRequired().HasMaxLength(100);
                 entity.Property(u => u.PasswordHash).IsRequired();
-                entity.Property(u => u.Role).HasMaxLength(20).HasDefaultValue("user");
+
+                // Role alanını enum (int) olarak saklama
+                entity.Property(u => u.Role)
+       .HasConversion<string>() // Enum'ı string olarak saklar
+       .HasDefaultValue(UserRole.User); // Varsayılan değer: User
+
+
                 entity.Property(u => u.CreatedAt).HasDefaultValueSql("GETDATE()");
             });
 
@@ -41,18 +47,19 @@ namespace Web_Project.Data
                 entity.Property(p => p.CreatedAt).HasDefaultValueSql("GETDATE()");
 
                 // Property - PropertyView ilişkisi
-                entity.HasMany(p => p.Views) // Property tablosu Views ile ilişkili
-                      .WithOne(v => v.Property) // Views'deki Property ilişkisi
-                      .HasForeignKey(v => v.PropertyId) // Foreign Key tanımı
-                      .OnDelete(DeleteBehavior.Cascade); // Property silindiğinde Views kayıtlarını sil
+                entity.HasMany(p => p.Views)
+                      .WithOne(v => v.Property)
+                      .HasForeignKey(v => v.PropertyId)
+                      .OnDelete(DeleteBehavior.Cascade);
             });
 
             // PropertyViews tablosu yapılandırması
             modelBuilder.Entity<PropertyView>(entity =>
             {
                 entity.HasKey(v => v.ViewId); // Primary Key
-                entity.Property(v => v.ViewedAt).IsRequired(); // ViewedAt alanı zorunlu
+                entity.Property(v => v.ViewedAt).IsRequired();
             });
         }
     }
 }
+

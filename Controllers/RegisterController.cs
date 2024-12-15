@@ -29,7 +29,7 @@ namespace Web_Project.Controllers
                 // Şifreyi hashle
                 user.PasswordHash = HashPassword(password);
                 user.CreatedAt = DateTime.Now;
-                user.Role = "user"; // Varsayılan rol
+                user.Role = UserRole.User; // Enum kullanımı ile varsayılan rol atanıyor
 
                 // Kullanıcıyı veritabanına ekle
                 _context.Users.Add(user);
