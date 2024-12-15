@@ -4,19 +4,16 @@
     ViewData["Title"] = "House Page";
 }
 
-
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
 <link rel="stylesheet" href="/css/site.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-
-
 <link rel="stylesheet" href="/css/house1.css" />
 <script src="/js/house1.js"></script>
 <script src="/js/site.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 <div class="house-container">
-    
+
     <div class="photo-slider">
         <div class="swiper">
             <div class="swiper-wrapper">
@@ -40,10 +37,9 @@
         </div>
     </div>
 
-    
     <div class="reservation-panel">
         <h3>@Model.HouseDetails.Price.ToString("N0") ₺ / gece</h3>
-        <form>
+        <form method="get" action="/houses/reservation">
             <label for="checkin">GİRİŞ</label>
             <input type="text" id="checkin" name="checkin" placeholder="Giriş Tarihi" readonly>
 
@@ -57,7 +53,7 @@
                 <option value="3">3 misafir</option>
             </select>
 
-            <button type="submit" class="reserve-btn">Rezerve edin</button>
+            <button type="submit" class="btn btn-primary">Rezerve Et</button>
 
             <p>Henüz sizden tahsilat yapılmayacak</p>
             <div class="price-details">
@@ -67,7 +63,6 @@
         </form>
     </div>
 </div>
-
 
 <div class="details">
     <h2>Bu Mekan Size Neler Sunuyor?</h2>
@@ -92,9 +87,7 @@
     </div>
 </div>
 
-
 <script>
-    
     flatpickr("#calendar1", {
         mode: "range",
         inline: true,
@@ -108,7 +101,6 @@
         },
     });
 
-    
     flatpickr("#calendar2", {
         mode: "range",
         inline: true,
@@ -122,7 +114,6 @@
         },
     });
 
-    
     var swiper = new Swiper('.swiper', {
         slidesPerView: 3,
         spaceBetween: 10,
