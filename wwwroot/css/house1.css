@@ -153,26 +153,6 @@
 }
 
 
-footer {
-    text-align: center;
-    padding: 10px;
-    background-color: #f0f0f0;
-    border-top: 1px solid #ccc;
-    position: sticky;
-    bottom: 0;
-    width: 100%;
-    font-size: 14px;
-    color: #555;
-}
-
-    footer a {
-        color: #555;
-        text-decoration: none;
-    }
-
-        footer a:hover {
-            text-decoration: underline;
-        }
 
 
 @media (max-width: 768px) {
@@ -199,4 +179,3 @@ footer {
     .calendar {
         margin-bottom: 20px;
     }
-}

@@ -3,40 +3,64 @@
 @{
     ViewData["Title"] = "Home page";
 }
+<link rel="stylesheet" href="/css/site.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+<link rel="stylesheet" href="/css/home.css" />
 
 
-<div class="row">
-    <div class="col-md-4">
-        <div class="card">
-            <img src="house1.jpg" class="card-img-top" alt="İstanbul Manzaralı Ev">
-            <div class="card-body">
-                <h5 class="card-title">İstanbul, Türkiye</h5>
-                <p class="card-text">Deniz manzaraları - 13-18 Ocak</p>
-                <p class="card-text">5.764 ₺ / gece</p>
-                <a href="/houses/house1" class="btn btn-primary">Detayları Gör</a>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card">
-            <img src="house2.jpg" class="card-img-top" alt="Adalar Ev">
-            <div class="card-body">
-                <h5 class="card-title">Adalar, Türkiye</h5>
-                <p class="card-text">22 km uzakta - 15-20 Aralık</p>
-                <p class="card-text">5.077 ₺ / gece</p>
-                <a href="/houses/house2" class="btn btn-primary">Detayları Gör</a>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card">
-            <img src="house3.jpg" class="card-img-top" alt="Boğaz Manzaralı Ev">
-            <div class="card-body">
-                <h5 class="card-title">İstanbul, Türkiye</h5>
-                <p class="card-text">Sahil ve dağ manzarası - 21-26 Aralık</p>
-                <p class="card-text">4.586 ₺ / gece</p>
-                <a href="/details/house3" class="btn btn-primary">Detayları Gör</a>
-            </div>
-        </div>
-    </div>
+
+
+<div class="posts">
+	<div class="post">
+		<div class="post-image">
+			<img src="~/media/houses/h3/1.jpeg" alt="Property Image">
+		</div>
+		<div class="post-text">
+			<h3 class="location">Palisade, Colorado, ABD</h3>
+			<div class="rating">★ 4.9</div>
+			<p class="date">30 Nov - 5 Dec</p>
+			<p class="price">5.622 ₺ night</p>
+			<p class="views">Last week seen 279 times</p>
+		</div>
+	</div>
+	<div class="post">
+		<div class="post-image">
+			<img src="~/media/houses/h2/1.jpeg" alt="Property Image">
+		</div>
+		<div class="post-text">
+			<h3 class="location">Palisade, Colorado, ABD</h3>
+			<div class="rating">★ 4.9</div>
+			<p class="date">30 Nov - 5 Dec</p>
+			<p class="price">5.622 ₺ night</p>
+			<p class="views">Last week seen 279 times</p>
+		</div>
+	</div>
+	<div class="post">
+		<div class="post-image">
+			<img src="~/media/houses/h1/1.jpeg" alt="Property Image">
+		</div>
+		<div class="post-text">
+			<h3 class="location">Palisade, Colorado, ABD</h3>
+			<div class="rating">★ 4.9</div>
+			<p class="date">30 Nov - 5 Dec</p>
+			<p class="price">5.622 ₺ night</p>
+			<p class="views">Last week seen 279 times</p>
+		</div>
+	</div>
+	
+	<div class="post">
+		<a href="houses/house1">
+		<div class="post-image">
+			<img src="~/media/houses/h1/1.jpeg" alt="Property Image">
+		</div>
+		<div class="post-text">
+			<h3 class="location">Palisade, Colorado, ABD</h3>
+			<div class="rating">★ 4.9</div>
+			<p class="date">30 Nov - 5 Dec</p>
+			<p class="price">5.622 ₺ night</p>
+			<p class="views">Last week seen 279 times</p>
+		</div>
+		</a>
+	</div>
+	
 </div>

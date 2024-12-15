@@ -3,13 +3,13 @@ body {
     font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f8f9fa;
+   /* background-color: #f8f9fa; */
     cursor: default;
 }
 
 #about {
     padding: 60px 20px;
-    background: linear-gradient(135deg, #ffffff, #e9f2fb); /* Hafif mavi arka plan */
+    /*background: linear-gradient(135deg, #ffffff, #e9f2fb);  Hafif mavi arka plan */
     text-align: center;
 }
 
