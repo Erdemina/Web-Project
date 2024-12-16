@@ -110,7 +110,7 @@
         color: #000;
     }
 
-/
+
 .details {
     margin-top: 40px;
 }
@@ -157,14 +157,15 @@
 
 @media (max-width: 768px) {
     .house-container {
-        flex-direction: column; 
+        flex-direction: column;
     }
 
     .photo-slider {
-        width: 100%; 
+        width: 100%;
+    }
 
     .swiper-slide {
-        flex: 0 0 calc(50% - 10px); 
+        flex: 0 0 calc(50% - 10px);
     }
 
     .reservation-panel {
@@ -173,9 +174,10 @@
     }
 
     .calendar-container {
-        flex-direction: column; 
+        flex-direction: column;
     }
 
     .calendar {
         margin-bottom: 20px;
     }
+}
