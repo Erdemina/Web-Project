@@ -31,3 +31,49 @@ var swiper = new Swiper('.swiper', {
         },
     },
 });
+
+// Tüm Fotoğrafları Göster Butonu
+function showAllPhotos() {
+    document.getElementById("photo-modal").style.display = "flex";
+}
+
+// Modalı Kapatma Fonksiyonu
+function closeModal() {
+    document.getElementById("photo-modal").style.display = "none";
+}
+
+// Modal dışında tıklanınca kapatma
+window.onclick = function (event) {
+    const modal = document.getElementById("photo-modal");
+    if (event.target === modal) {
+        modal.style.display = "none";
+    }
+};
+
+// Tarih Seçimi ve Hesaplama
+flatpickr("#calendar1", {
+    mode: "range",
+    inline: true,
+    dateFormat: "Y-m-d",
+    minDate: "today",
+    onChange: function (selectedDates) {
+        if (selectedDates.length === 2) {
+            const checkinDate = selectedDates[0].toISOString().split('T')[0];
+            const checkoutDate = selectedDates[1].toISOString().split('T')[0];
+
+            document.getElementById('checkin').value = checkinDate;
+            document.getElementById('checkout').value = checkoutDate;
+
+            calculateTotalPrice(selectedDates[0], selectedDates[1]);
+        }
+    }
+});
+
+function calculateTotalPrice(checkin, checkout) {
+    const nights = Math.ceil((checkout - checkin) / (1000 * 60 * 60 * 24));
+    const pricePerNight = parseFloat(document.querySelector(".reservation-panel h3").textContent.replace("₺ / gece", "").trim().replace(",", ""));
+    const totalPrice = nights * pricePerNight;
+
+    document.getElementById('total-nights').innerText = nights;
+    document.getElementById('total-price').innerText = totalPrice.toLocaleString('tr-TR') + " ₺";
+}

@@ -27,7 +27,9 @@ namespace Web_Project.Pages.Houses
                 {
                     new HouseImage { Url = "/images/a.jpg" },
                     new HouseImage { Url = "/images/b.jpg" },
-                    new HouseImage { Url = "/images/c.jpg" }
+                    new HouseImage { Url = "/images/c.jpg" },
+                    new HouseImage { Url = "/images/d.jpg" }
+
                 }
             };
         }
