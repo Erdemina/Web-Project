@@ -1,33 +1,45 @@
+using Microsoft.EntityFrameworkCore;
 using MySql.Data.MySqlClient;
+using Web_Project.Data; // AppDbContext için namespace
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add services to the container
 builder.Services.AddRazorPages();
 
-// MariaDB ba�lant�s�n� kontrol et
+// Add session support
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Oturum süresi (30 dakika)
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true; // GDPR uyumu
+});
+
+// Database bağlantısı ve kontrolü
 string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 try
 {
     using (var connection = new MySqlConnection(connectionString))
     {
         connection.Open();
-        Console.WriteLine("Database ba�lant�s� ba�ar�l�!");
+        Console.WriteLine("Database bağlantısı başarılı!");
     }
 }
 catch (Exception ex)
 {
-    Console.WriteLine($"Database ba�lant� hatas�: {ex.Message}");
+    Console.WriteLine($"Database bağlantı hatası: {ex.Message}");
 }
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configure the HTTP request pipeline
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -36,9 +48,15 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+// Enable session
+app.UseSession();
+
 app.UseAuthorization();
 
+// Ana sayfaya yönlendirme
+app.MapGet("/", () => Results.Redirect("/Home"));
 
+// Razor Pages
 app.MapRazorPages();
 
 app.Run();

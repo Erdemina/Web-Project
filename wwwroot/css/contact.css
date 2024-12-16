@@ -1,7 +1,6 @@
 /* General Styles for Contact Page */
 #contact {
     padding: 60px 20px;
-    background: linear-gradient(135deg, #f4f4f4, #eaeaea);
     text-align: center;
     font-family: 'Roboto', sans-serif;
     color: #333;
@@ -10,7 +9,7 @@
 .contact-container {
     max-width: 500px;
     margin: 0 auto;
-    background-color: #ffffff;
+    background-color: #f8f8f8;
     padding: 30px;
     border: 2px solid #ccc;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1), inset 0 2px 6px rgba(0, 0, 0, 0.05);
@@ -51,12 +50,6 @@ form {
     margin-bottom: 20px;
 }
 
-.form-group {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
 label {
     font-weight: bold;
     font-size: 1em;
@@ -81,11 +74,6 @@ input, textarea {
         box-shadow: 0 0 8px rgba(0, 86, 179, 0.4);
         outline: none;
     }
-
-textarea {
-    resize: vertical;
-    min-height: 100px;
-}
 
 .submit-btn {
     align-self: center;
@@ -124,52 +112,23 @@ textarea {
         font-weight: bold;
     }
 
-footer {
-    margin-top: 60px;
-    padding: 15px 0;
-    background-color: #f1f1f1;
-    color: #555;
-    font-size: 0.9em;
-    text-align: center;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-    border-top: 1px solid #ddd;
-}
-
-    footer a {
-        color: #0056b3;
-        text-decoration: none;
-        margin: 0 5px;
-        font-weight: bold;
-    }
-
-        footer a:hover {
-            text-decoration: underline;
-        }
-
-    footer .copyright {
-        margin-top: 10px;
-        font-size: 0.85em;
-        color: #777;
-    }
-
+/* Responsive Design */
 @media (max-width: 768px) {
     .contact-container {
         padding: 15px;
     }
 
-    h2 {
-        font-size: 1.8em;
-    }
+        .contact-container h2 {
+            font-size: 1.8em;
+        }
 
     .submit-btn {
         padding: 10px 20px;
     }
-
-    footer {
-        margin-top: 40px;
-    }
 }
 
+/* Dark Mode Temporarily Disabled */
+/*
 @media (prefers-color-scheme: dark) {
     #contact {
         background-color: #1a202c;
@@ -190,19 +149,5 @@ footer {
     .submit-btn {
         background: linear-gradient(135deg, #0056b3, #007bff);
     }
-
-        .submit-btn:hover {
-            background: linear-gradient(135deg, #003d7e, #0056b3);
-        }
-
-    footer {
-        background-color: #2d3748;
-        border-top: 1px solid #4a5568;
-        color: #e2e8f0;
-    }
-
-        footer a {
-            color: #81e6d9;
-        }
-        
 }
+*/

@@ -1,0 +1,66 @@
+﻿@page
+@model Web_Project.Pages.houses.ReservationModel
+@{
+    ViewData["Title"] = "Rezervasyon Formu";
+}
+
+<link rel="stylesheet" href="~/css/site.css" />
+<link rel="stylesheet" href="~/css/reservation.css" />
+
+<div class="reservation-container">
+    <h2>Rezervasyon Formu</h2>
+    <form method="post">
+        <div class="form-group">
+            <label for="fullName">Ad Soyad</label>
+            <input type="text" id="fullName" name="FullName" required />
+        </div>
+        <div class="form-group">
+            <label for="email">E-posta</label>
+            <input type="email" id="email" name="Email" required />
+        </div>
+        <div class="form-group">
+            <label for="phone">Telefon</label>
+            <input type="tel" id="phone" name="Phone" required />
+        </div>
+        <div class="form-group">
+            <label for="guests">Misafir Sayısı</label>
+            <select id="guests" name="Guests" onchange="updateGuestFields()">
+                <option value="1">1 misafir</option>
+                <option value="2">2 misafir</option>
+                <option value="3">3 misafir</option>
+                <option value="4">4 misafir</option>
+            </select>
+        </div>
+
+        <div id="guest-birthdates">
+            <div class="form-group">
+                <label for="birthdate-1">1. Kışinin Doğum Tarihi</label>
+                <input type="date" id="birthdate-1" name="BirthDates" required />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="address">Adres</label>
+            <textarea id="address" name="Address" rows="3" required></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Gönder</button>
+    </form>
+</div>
+
+<script>
+    function updateGuestFields() {
+        const guestCount = document.getElementById('guests').value;
+        const container = document.getElementById('guest-birthdates');
+        container.innerHTML = '';
+        
+        for (let i = 1; i <= guestCount; i++) {
+            const field = `
+                <div class="form-group">
+                    <label for="birthdate-${i}">${i}. Kışinin Doğum Tarihi</label>
+                    <input type="date" id="birthdate-${i}" name="BirthDates" required />
+                </div>`;
+            container.insertAdjacentHTML('beforeend', field);
+        }
+    }
+</script>
