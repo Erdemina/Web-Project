@@ -75,5 +75,5 @@ function calculateTotalPrice(checkin, checkout) {
     const totalPrice = nights * pricePerNight;
 
     document.getElementById('total-nights').innerText = nights;
-    document.getElementById('total-price').innerText = totalPrice.toLocaleString('tr-TR') + " ₺";
+    document.getElementById('total-price').innerText = totalPrice.toLocaleString('tr-TR') + " ₺";
 }

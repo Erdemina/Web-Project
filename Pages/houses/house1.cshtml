@@ -9,35 +9,34 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 <link rel="stylesheet" href="/css/house1.css" />
 <script src="/js/house1.js"></script>
-
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 <div class="house-container">
-    
-    <div class="photo-slider">
-        <div class="swiper">
-            <div class="swiper-wrapper">
-                @if (Model.HouseDetails?.Images != null && Model.HouseDetails.Images.Any())
-                {
-                    foreach (var image in Model.HouseDetails.Images)
-                    {
-                        <div class="swiper-slide">
-                            <img src="@image.Url" alt="@Model.HouseDetails.Name Fotoğraf">
-                        </div>
-                    }
-                }
-                else
-                {
-                    <p>Fotoğraf bulunamadı.</p>
-                }
-            </div>
-            <div class="swiper-pagination"></div>
-            <div class="swiper-button-prev"></div>
-            <div class="swiper-button-next"></div>
+    <div class="photo-gallery">
+        <!-- Sol tarafta büyük ana fotoğraf -->
+        <div class="gallery-main">
+            <img src="@Model.HouseDetails.Images[0].Url" alt="Ana Fotoğraf">
+        </div>
+        <!-- Sağ tarafta iki küçük fotoğraf -->
+        <div class="gallery-right">
+            <img src="@Model.HouseDetails.Images[1].Url" alt="Sağ Üst Fotoğraf">
+            <img src="@Model.HouseDetails.Images[2].Url" alt="Sağ Alt Fotoğraf">
+        </div>
+        <!-- Tüm fotoğrafları göster butonu -->
+        <button id="show-all-btn" onclick="showAllPhotos()">Tüm fotoğrafları göster</button>
+    </div>
+
+    <!-- Modal İçeriği -->
+    <div id="photo-modal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <div class="modal-content">
+            @foreach (var image in Model.HouseDetails.Images)
+            {
+                <img src="@image.Url" alt="Tam Boy Fotoğraf">
+            }
         </div>
     </div>
 
-    
     <div class="reservation-panel">
         <h3>@Model.HouseDetails.Price.ToString("N0") ₺ / gece</h3>
         <form method="get" action="/houses/reservation">
@@ -89,61 +88,75 @@
 
 <script>
     flatpickr("#calendar1", {
-         mode: "range",
-         inline: true,
-         dateFormat: "Y-m-d",
-         showMonths: 2, // Aynı anda 2 ay göster
-         minDate: "today",
-         onChange: function(selectedDates) {
-             if (selectedDates.length === 2) {
-                 const checkinDate = selectedDates[0].toISOString().split('T')[0];
-                 const checkoutDate = selectedDates[1].toISOString().split('T')[0];
-                 document.getElementById('checkin').value = checkinDate;
-                 document.getElementById('checkout').value = checkoutDate;
-
-                 // Toplam gün hesaplama
-                 const nights = (selectedDates[1] - selectedDates[0]) / (1000 * 3600 * 24);
-                 document.getElementById('total-nights').innerText = nights;
-             }
-         },
-     });
-</script>
-
-    
-    flatpickr("#calendar2", {
         mode: "range",
         inline: true,
         dateFormat: "Y-m-d",
+        showMonths: 2, // Aynı anda 2 ay göster
         minDate: "today",
-        onChange: function (selectedDates) {
+        onChange: function(selectedDates) {
             if (selectedDates.length === 2) {
-                document.getElementById('checkin').value = selectedDates[0].toISOString().split('T')[0];
-                document.getElementById('checkout').value = selectedDates[1].toISOString().split('T')[0];
+                const checkinDate = selectedDates[0].toISOString().split('T')[0];
+                const checkoutDate = selectedDates[1].toISOString().split('T')[0];
+                document.getElementById('checkin').value = checkinDate;
+                document.getElementById('checkout').value = checkoutDate;
+
+                // Toplam gün hesaplama
+                const nights = (selectedDates[1] - selectedDates[0]) / (1000 * 3600 * 24);
+                document.getElementById('total-nights').innerText = nights;
+                document.getElementById('total-price').innerText =
+                    (nights * @Model.HouseDetails.Price).toLocaleString() + " ₺";
             }
         },
     });
-
-    
-    var swiper = new Swiper('.swiper', {
-        slidesPerView: 3,
-        spaceBetween: 10,
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },
-        pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-        },
-        loop: true,
-        autoplay: {
-            delay: 3000,
-            disableOnInteraction: false,
-        },
-        breakpoints: {
-            1024: { slidesPerView: 3, spaceBetween: 20 },
-            768: { slidesPerView: 2, spaceBetween: 15 },
-            480: { slidesPerView: 1, spaceBetween: 10 },
-        },
-    });
 </script>
+
+<div class="reviews-container">
+    <!-- Değerlendirme Puanları -->
+    <div class="rating-summary">
+        <h3>⭐ 4,77 · 44 değerlendirme</h3>
+        <div class="ratings">
+            <div class="rating-item">
+                <span>Temizlik</span> <strong>4,9</strong>
+            </div>
+            <div class="rating-item">
+                <span>Doğruluk</span> <strong>4,9</strong>
+            </div>
+            <div class="rating-item">
+                <span>Giriş</span> <strong>4,9</strong>
+            </div>
+            <div class="rating-item">
+                <span>İletişim</span> <strong>4,9</strong>
+            </div>
+            <div class="rating-item">
+                <span>Konum</span> <strong>4,8</strong>
+            </div>
+            <div class="rating-item">
+                <span>Kalite/Fiyat</span> <strong>4,7</strong>
+            </div>
+        </div>
+    </div>
+
+    <!-- Yorumlar -->
+    <div class="reviews-grid">
+        <div class="reviews-left">
+            <div class="review">
+                <img src="user1.jpg" alt="User1" class="profile-pic">
+                <div>
+                    <h4>Ayeshah</h4>
+                    <p><strong>Temmuz 2024</strong> · Birkaç gece konakladı</p>
+                    <p>Harika bir konaklama. En iyi manzaraya sahip harika bir yer...</p>
+                </div>
+            </div>
+        </div>
+        <div class="reviews-right">
+            <div class="review">
+                <img src="user3.jpg" alt="User3" class="profile-pic">
+                <div>
+                    <h4>Dorukan</h4>
+                    <p><strong>Haziran 2024</strong> · Birkaç gece konakladı</p>
+                    <p>Yer resimlerde görüldüğü gibiydi. Çok memnun kaldım.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
