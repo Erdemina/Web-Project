@@ -1,8 +1,9 @@
-﻿@page
-@model Web_Project.Pages.Houses.House1Model
+﻿@page "{id:int}"
+@model Web_Project.Pages.Home.DetailsModel
 @{
-    ViewData["Title"] = "House Page";
+    ViewData["Title"] = "Property Details";
 }
+
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
 <link rel="stylesheet" href="/css/site.css" />
@@ -14,31 +15,34 @@
 <div class="house-container">
     <div class="photo-gallery">
         <!-- Sol tarafta büyük ana fotoğraf -->
+        @if(Model.Property.ct_image >= 3)
+        {
         <div class="gallery-main">
-            <img src="@Model.HouseDetails.Images[0].Url" alt="Ana Fotoğraf">
+            <img src="~/media/houses/h_@Model.Property.propid/1.jpeg" alt="Property Image">
         </div>
         <!-- Sağ tarafta iki küçük fotoğraf -->
         <div class="gallery-right">
-            <img src="@Model.HouseDetails.Images[1].Url" alt="Sağ Üst Fotoğraf">
-            <img src="@Model.HouseDetails.Images[2].Url" alt="Sağ Alt Fotoğraf">
+            <img src="~/media/houses/h_@Model.Property.propid/2.jpeg" alt="Property Image">
+            <img src="~/media/houses/h_@Model.Property.propid/3.jpeg" alt="Property Image">
         </div>
+        }
+        else{
+            <img src="~/media/houses/h_@Model.Property.propid/1.jpeg" alt="Property Image">
+        }
         <!-- Tüm fotoğrafları göster butonu -->
         <button id="show-all-btn" onclick="showAllPhotos()">Tüm fotoğrafları göster</button>
     </div>
 
-    <!-- Modal İçeriği -->
+    <!-- Modal İçeriği (düzenlencek) -->
     <div id="photo-modal" class="modal">
         <span class="close" onclick="closeModal()">&times;</span>
         <div class="modal-content">
-            @foreach (var image in Model.HouseDetails.Images)
-            {
-                <img src="@image.Url" alt="Tam Boy Fotoğraf">
-            }
+            s
         </div>
     </div>
 
     <div class="reservation-panel">
-        <h3>@Model.HouseDetails.Price.ToString("N0") ₺ / gece</h3>
+        <h3>@Model.Property.pricenight ₺ per night</h3>
         <form method="get" action="/houses/reservation">
             <label for="checkin">GİRİŞ</label>
             <input type="text" id="checkin" name="checkin" placeholder="Giriş Tarihi" readonly>
@@ -48,37 +52,33 @@
 
             <label for="guests">MİSAFİR SAYISI</label>
             <select id="guests" name="guests">
-                <option value="1">1 misafir</option>
-                <option value="2">2 misafir</option>
-                <option value="3">3 misafir</option>
+                @for (int i = 1; i <= Model.Property.guests; i++)
+                {
+                    <option value="@i">@i misafir</option>
+                    
+                }
+
+                
             </select>
 
             <button type="submit" class="btn btn-primary">Rezerve Et</button>
 
             <p>Henüz sizden tahsilat yapılmayacak</p>
             <div class="price-details">
-                <p>@Model.HouseDetails.Price.ToString("N0") ₺ x <span id="total-nights">0</span> gece</p>
+                <p> <span id="total-nights">0</span> gece</p>
                 <p>Toplam: <span id="total-price">0</span> ₺</p>
             </div>
         </form>
     </div>
 </div>
-
+<br />
+<br />
+<div class="rating-summary">
+    <h3>⭐ @Model.Property.rating · @Model.TotalReviews değerlendirme</h3>
+</div>
 <div class="details">
     <h2>Bu Mekan Size Neler Sunuyor?</h2>
-    <ul class="features">
-        @if (Model.HouseDetails?.Features != null && Model.HouseDetails.Features.Any())
-        {
-            foreach (var feature in Model.HouseDetails.Features)
-            {
-                <li>@feature</li>
-            }
-        }
-        else
-        {
-            <li>Özellikler bulunamadı.</li>
-        }
-    </ul>
+    <p>@Model.Property.description</p>
 
     <h3>Uygunluk Takvimleri</h3>
     <div class="calendar-container">
@@ -104,7 +104,7 @@
                 const nights = (selectedDates[1] - selectedDates[0]) / (1000 * 3600 * 24);
                 document.getElementById('total-nights').innerText = nights;
                 document.getElementById('total-price').innerText =
-                    (nights * @Model.HouseDetails.Price).toLocaleString() + " ₺";
+                    (nights * @Model.Property.pricenight).toLocaleString() ;
             }
         },
     });
@@ -112,51 +112,31 @@
 
 <div class="reviews-container">
     <!-- Değerlendirme Puanları -->
-    <div class="rating-summary">
-        <h3>⭐ 4,77 · 44 değerlendirme</h3>
-        <div class="ratings">
-            <div class="rating-item">
-                <span>Temizlik</span> <strong>4,9</strong>
-            </div>
-            <div class="rating-item">
-                <span>Doğruluk</span> <strong>4,9</strong>
-            </div>
-            <div class="rating-item">
-                <span>Giriş</span> <strong>4,9</strong>
-            </div>
-            <div class="rating-item">
-                <span>İletişim</span> <strong>4,9</strong>
-            </div>
-            <div class="rating-item">
-                <span>Konum</span> <strong>4,8</strong>
-            </div>
-            <div class="rating-item">
-                <span>Kalite/Fiyat</span> <strong>4,7</strong>
-            </div>
-        </div>
-    </div>
+    <br />
+    <br />
 
     <!-- Yorumlar -->
-    <div class="reviews-grid">
-        <div class="reviews-left">
-            <div class="review">
-                <img src="user1.jpg" alt="User1" class="profile-pic">
-                <div>
-                    <h4>Ayeshah</h4>
-                    <p><strong>Temmuz 2024</strong> · Birkaç gece konakladı</p>
-                    <p>Harika bir konaklama. En iyi manzaraya sahip harika bir yer...</p>
+    @if (Model.Reviews != null && Model.Reviews.Any())
+    {
+        @foreach (var review in Model.Reviews.Take(1))
+        {
+            <div class="reviews-grid">
+                <div class="reviews-left">
+                    <div class="review">
+                        <img src="/media/profile.jpg" alt="@review.User.Username" class="profile-pic">
+                        <div>
+                            <h4>@review.User.Username</h4>
+                            <p><strong>@review.CreatedAt.ToString("MMMM yyyy")</strong></p>
+                            <p>@review.comment</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="reviews-right">
-            <div class="review">
-                <img src="user3.jpg" alt="User3" class="profile-pic">
-                <div>
-                    <h4>Dorukan</h4>
-                    <p><strong>Haziran 2024</strong> · Birkaç gece konakladı</p>
-                    <p>Yer resimlerde görüldüğü gibiydi. Çok memnun kaldım.</p>
-                </div>
-            </div>
-        </div>
-    </div>
+            break;
+        }
+    }
+    else
+    {
+        <p>Henüz değerlendirme yok.</p>
+    }
 </div>
