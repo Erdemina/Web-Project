@@ -54,7 +54,7 @@ app.UseSession();
 app.UseAuthorization();
 
 // Ana sayfaya yönlendirme
-app.MapGet("/", () => Results.Redirect("/Home"));
+app.MapGet("/", () => Results.Redirect("/home"));
 
 // Razor Pages
 app.MapRazorPages();

@@ -19,8 +19,8 @@
         <div class="navbar">
             <div class="logo">
                 <a href="/home"><img src="~/media/logo.png" alt="Logo"></a>
-                <a href="/home/about">About</a>
-                <a href="/home/contact">Contact</a>
+                <a href="/about">About</a>
+                <a href="/contact">Contact</a>
             </div>
 
             <div class="search-bar">
@@ -53,11 +53,17 @@
                         <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="profileMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fas fa-user-circle"></i> @Context.Session.GetString("Username")
                         </button>
+                        
+
+                        
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileMenuButton">
+                            <!--Admin giriş yaptıysa-->
                             @if (Enum.TryParse(Context.Session.GetString("UserRole"), out UserRole role) && role == UserRole.Admin)
                             {
                                 <li><a class="dropdown-item" href="/adminpage">Admin Paneli</a></li>
                             }
+
+                           
                             <li><a class="dropdown-item" href="/home/logout">Çıkış Yap</a></li>
                         </ul>
                     }

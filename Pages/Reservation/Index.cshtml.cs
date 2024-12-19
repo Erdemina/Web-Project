@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
 
-namespace Web_Project.Pages.houses
+namespace Web_Project.Pages.Reservation
 {
     public class ReservationModel : PageModel
     {

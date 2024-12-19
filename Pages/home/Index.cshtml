@@ -10,7 +10,7 @@
 <div class="posts">
     @foreach (var property in Model.Properties)
     {
-        <a asp-page="/Home/Details" asp-route-id="@property.propid" class="post-link">
+        <a asp-page="/details/Index" asp-route-id="@property.propid" class="post-link">
             <div class="post">
                 <div class="post-image">
                     <img src="~/media/houses/h_@property.propid/1.jpeg" alt="Property Image">
