@@ -2,12 +2,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
 
-namespace Web_Project.Pages.houses
+namespace Web_Project.Pages.Reservation
 {
     public class ReservationModel : PageModel
     {
         [BindProperty]
-        public ReservationFormModel ReservationData { get; set; }
+        public ReservationFormModel ReservationData { get; set; } = new ReservationFormModel();
 
         public void OnGet()
         {
@@ -20,17 +20,17 @@ namespace Web_Project.Pages.houses
                 return Page();
             }
 
-            return RedirectToPage("/Reservation/Success");
+            return RedirectToPage("/Reservation/Payment");
         }
 
         public class ReservationFormModel
         {
-            public string FullName { get; set; }
-            public string Email { get; set; }
-            public string Phone { get; set; }
-            public int Guests { get; set; }
-            public List<string> BirthDates { get; set; }
-            public string Address { get; set; }
+            public string FullName { get; set; } = string.Empty;
+            public string Email { get; set; } = string.Empty;
+            public string Phone { get; set; } = string.Empty;
+            public int Guests { get; set; } = 1;
+            public List<string> BirthDates { get; set; } = new List<string>();
+            public string Address { get; set; } = string.Empty;
         }
     }
 }

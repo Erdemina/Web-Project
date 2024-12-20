@@ -1,0 +1,100 @@
+﻿@page
+@model Web_Project.Pages.Reservation.PaymentModel
+@{
+    ViewData["Title"] = "Ödeme Ekranı";
+}
+
+<link rel="stylesheet" href="~/css/site.css" />
+<link rel="stylesheet" href="~/css/payment.css" />
+
+<div class="payment-container">
+    <h2>Ödeme Bilgileri</h2>
+    <form method="post" onsubmit="return validateForm()">
+        <div class="form-group card-input-group">
+            <label for="cardNumber">Kart Numarası</label>
+            <div class="card-number-container">
+                <input type="text" id="cardNumber" name="PaymentData.CardNumber" maxlength="19" required oninput="formatCardNumber()" placeholder="XXXX XXXX XXXX XXXX" />
+                <img id="cardLogo" src="" alt="" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="cardHolder">Kart Sahibi Ad Soyad</label>
+            <input type="text" id="cardHolder" name="PaymentData.CardHolder" required />
+        </div>
+        <div class="form-group">
+            <label for="expiryDate">Son Kullanma Tarihi</label>
+            <input type="text" id="expiryDate" name="PaymentData.ExpiryDate" maxlength="5" placeholder="MM/YY" required oninput="formatExpiryDate()" />
+        </div>
+        <div class="form-group">
+            <label for="cvv">Güvenlik Kodu (CVV)</label>
+            <input type="text" id="cvv" name="PaymentData.CVV" maxlength="3" required oninput="validateCVV()" />
+        </div>
+        <button type="submit" class="btn btn-primary">Ödemeyi Tamamla</button>
+    </form>
+</div>
+
+<script>
+    function formatCardNumber() {
+        const cardNumberField = document.getElementById("cardNumber");
+        let cardNumber = cardNumberField.value.replace(/\D/g, ""); // Sadece rakamları al
+        cardNumber = cardNumber.match(/.{1,4}/g)?.join(" ") || cardNumber; // 4'lük gruplara ayır
+        cardNumberField.value = cardNumber;
+
+        const cardLogo = document.getElementById("cardLogo");
+        if (cardNumber.startsWith("4")) {
+            cardLogo.src = "/images/visa.png";
+            cardLogo.style.display = "block";
+        } else if (cardNumber.startsWith("5")) {
+            cardLogo.src = "/images/mastercard.png";
+            cardLogo.style.display = "block";
+        } else {
+            cardLogo.style.display = "none";
+        }
+    }
+
+    function formatExpiryDate() {
+        const expiryField = document.getElementById("expiryDate");
+        let expiryDate = expiryField.value.replace(/\D/g, ""); // Sadece rakamları al
+        if (expiryDate.length > 2) {
+            expiryDate = expiryDate.substring(0, 2) + "/" + expiryDate.substring(2, 4); // 2 rakamdan sonra `/` ekle
+        }
+        expiryField.value = expiryDate;
+    }
+
+    function validateCVV() {
+        const cvvField = document.getElementById("cvv");
+        const cvvValue = cvvField.value.replace(/\D/g, ""); // Sadece rakamları al
+        if (cvvValue.length > 3) {
+            cvvField.value = cvvValue.substring(0, 3); // En fazla 3 rakama izin ver
+        }
+    }
+
+    function validateForm() {
+        const cardNumber = document.getElementById("cardNumber").value.trim();
+        const cardHolder = document.getElementById("cardHolder").value.trim();
+        const expiryDate = document.getElementById("expiryDate").value.trim();
+        const cvv = document.getElementById("cvv").value.trim();
+
+        if (!cardNumber || !cardHolder || !expiryDate || !cvv) {
+            alert("Lütfen tüm alanları doldurun.");
+            return false;
+        }
+
+        if (cardNumber.replace(/\s/g, "").length !== 16) {
+            alert("Kart numarası 16 haneli olmalıdır.");
+            return false;
+        }
+
+        if (expiryDate.length !== 5 || !expiryDate.includes("/")) {
+            alert("Son kullanma tarihi MM/YY formatında olmalıdır.");
+            return false;
+        }
+
+        if (cvv.length !== 3) {
+            alert("CVV kodu 3 haneli olmalıdır.");
+            return false;
+        }
+
+        return true;
+    }
+</script>

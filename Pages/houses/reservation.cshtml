@@ -1,5 +1,5 @@
 ﻿@page
-@model Web_Project.Pages.houses.ReservationModel
+@model Web_Project.Pages.Reservation.ReservationModel
 @{
     ViewData["Title"] = "Rezervasyon Formu";
 }
@@ -12,19 +12,19 @@
     <form method="post">
         <div class="form-group">
             <label for="fullName">Ad Soyad</label>
-            <input type="text" id="fullName" name="FullName" required />
+            <input type="text" id="fullName" name="ReservationData.FullName" value="@Model.ReservationData.FullName" required />
         </div>
         <div class="form-group">
             <label for="email">E-posta</label>
-            <input type="email" id="email" name="Email" required />
+            <input type="email" id="email" name="ReservationData.Email" value="@Model.ReservationData.Email" required />
         </div>
         <div class="form-group">
             <label for="phone">Telefon</label>
-            <input type="tel" id="phone" name="Phone" required />
+            <input type="tel" id="phone" name="ReservationData.Phone" value="@Model.ReservationData.Phone" required />
         </div>
         <div class="form-group">
             <label for="guests">Misafir Sayısı</label>
-            <select id="guests" name="Guests" onchange="updateGuestFields()">
+            <select id="guests" name="ReservationData.Guests" onchange="updateGuestFields()" value="@Model.ReservationData.Guests">
                 <option value="1">1 misafir</option>
                 <option value="2">2 misafir</option>
                 <option value="3">3 misafir</option>
@@ -33,34 +33,20 @@
         </div>
 
         <div id="guest-birthdates">
-            <div class="form-group">
-                <label for="birthdate-1">1. Kışinin Doğum Tarihi</label>
-                <input type="date" id="birthdate-1" name="BirthDates" required />
-            </div>
+            @for (int i = 0; i < Model.ReservationData.Guests; i++)
+            {
+                <div class="form-group">
+                    <label for="birthdate-@(i + 1)">@($"{i + 1}. Kişinin Doğum Tarihi")</label>
+                    <input type="date" id="birthdate-@(i + 1)" name="ReservationData.BirthDates[@i]" required />
+                </div>
+            }
         </div>
 
         <div class="form-group">
             <label for="address">Adres</label>
-            <textarea id="address" name="Address" rows="3" required></textarea>
+            <textarea id="address" name="ReservationData.Address" rows="3" required>@Model.ReservationData.Address</textarea>
         </div>
 
         <button type="submit" class="btn btn-primary">Gönder</button>
     </form>
 </div>
-
-<script>
-    function updateGuestFields() {
-        const guestCount = document.getElementById('guests').value;
-        const container = document.getElementById('guest-birthdates');
-        container.innerHTML = '';
-        
-        for (let i = 1; i <= guestCount; i++) {
-            const field = `
-                <div class="form-group">
-                    <label for="birthdate-${i}">${i}. Kışinin Doğum Tarihi</label>
-                    <input type="date" id="birthdate-${i}" name="BirthDates" required />
-                </div>`;
-            container.insertAdjacentHTML('beforeend', field);
-        }
-    }
-</script>
