@@ -1,5 +1,29 @@
 ﻿@page "/account/Travels"
 @model Web_Project.Pages.account.TravelsModel
+<link rel="stylesheet" href="css/travels.css" />
 @{
+    <div class="container mt-5">
+        <h2>Seyahatler</h2>
+        <p class="text-muted">Gelecek rezervasyonlar</p>
+        <div class="reservation-card shadow-sm">
+            <div class="row g-0">
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">EVİN ADI,Konum</h5>
+                        <p class="card-date">REZERVASYON TARİHİNİ ÇEK</p>
+                        <p class="card-host">Ev sahibi: EV SAHİBİ ADINI ÇEK</p>
+                        <p class="card-address">EV ADRESİ MAHALLE<br>İL,İLÇE ŞEHİR</p>
+                        <button class="btn btn-outline-secondary">Misafirlere gönderin</button>
+                    </div>
+                </div>
+                <div class="col-md-4">
+
+                    <p class="card-photograf">Kanka Buraya Rezervasyon yapılan evin Fotoğraflarını çekmek lazım
+                    <img src="images/berlin-room.jpg" alt="Berlin Room" class="img-fluid rounded-end">
+                    <span class="badge badge-primary">Rezarvasyona kaç gün kaldığını yazabilir</span>
+                </div>
+            </div>
+        </div>
+    </div>
 
 }
