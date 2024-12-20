@@ -49,11 +49,20 @@
                 <div class="dropdown ml-auto">
                     @if (Context.Session.GetString("UserEmail") != null)
                     {
-                        <!-- Kullanıcı Giriş Yapmış -->
-                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="profileMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-user-circle"></i> @Context.Session.GetString("Username")
-                        </button>
-                        
+                        <div class="dropdown">
+                            <!-- Kullanıcı Giriş Yapmış -->
+                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="profileMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user-circle"></i> @Context.Session.GetString("Username")
+                            </button>
+
+                            <!-- Açılır Menü -->
+                            <ul class="dropdown-menu" aria-labelledby="profileMenuButton">
+                                <li><a class="dropdown-item" href="/account/PersonalInformation">Kişisel Bilgiler</a></li>
+                                <li><a class="dropdown-item" href="/account/Travels">Seyahatler</a></li>
+                                <li><a class="dropdown-item" href="/account/ShareYourHouse">Evinizi Paylaşın</a></li>
+                                <li><a class="dropdown-item text-danger" href="/account/Logout">Çıkış Yap</a></li>
+                            </ul>
+                        </div>
 
                         
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileMenuButton">
