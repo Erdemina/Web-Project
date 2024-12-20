@@ -55,6 +55,7 @@ namespace Web_Project.Pages.home
             // Kullanıcı oturum bilgilerini sakla
             HttpContext.Session.SetString("UserEmail", user.Email);
             HttpContext.Session.SetString("Username", user.Username);
+            HttpContext.Session.SetString("UserRole", user.Role.ToString()); // Enum'ı string olarak kaydediyoruz
 
             // Giriş başarılı
             return RedirectToPage("/Home/Index"); // Başarılı giriş sonrası yönlendirme

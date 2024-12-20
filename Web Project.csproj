@@ -15,17 +15,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\media\houses\h1\1.jpeg" />
-    <None Include="wwwroot\media\houses\h2\1.jpeg" />
-    <None Include="wwwroot\media\houses\h3\1.jpeg" />
+    <None Include="wwwroot\media\houses\h_1\1.jpeg" />
+    <None Include="wwwroot\media\houses\h_2\1.jpeg" />
+    <None Include="wwwroot\media\houses\h_3\1.jpeg" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Update="Pages\home\Index.cshtml">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Update="Pages\houses\house1.cshtml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>

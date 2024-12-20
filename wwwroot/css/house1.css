@@ -1,69 +1,91 @@
-
 .house-container {
     display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    margin: 20px;
+    flex-direction: column;
     gap: 20px;
 }
 
-
-.photo-slider {
-    width: 70%; 
+/* Fotoğraf Galerisi */
+.photo-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    width: 100%;
     margin-bottom: 20px;
 }
 
-.swiper {
+
+
+    .gallery-main img {
+        width: 100%;
+        height: 400px;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+
+.photo-gallery img {
     width: 100%;
-    height: auto;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
 }
 
-.swiper-wrapper {
-    display: flex; 
-}
-
-.swiper-slide {
-    flex: 0 0 calc(33.333% - 10px); 
-    margin-right: 10px;
-    display: flex;
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.9);
     justify-content: center;
     align-items: center;
 }
 
-    .swiper-slide img {
-        width: 100%;
-        height: auto;
-        object-fit: cover; 
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.modal-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: white;
+    font-size: 35px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+    .close:hover {
+        color: #ff5a5f;
     }
 
+/* Rezervasyon Paneli */
+.reservation-panel-container {
+    margin-top: 30px; /* Fotoğrafların altına yerleştir */
+    position: relative; /* Panel kaydırma için sabit konumlandırma */
+    justify-content: center; /* Ortaya hizalar */
+}
 
 .reservation-panel {
-    position: sticky;
-    top: 20px;
+    position: sticky; /* Sayfa kaydırıldığında sabitlenir */
+    top: 10px; /* Sayfa kaydırıldığında üstten mesafe */
     padding: 20px;
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     max-width: 300px;
-    margin-left: 20px;
-    font-family: Arial, sans-serif;
 }
-
     .reservation-panel h3 {
         font-size: 24px;
         margin-bottom: 20px;
         color: #333;
     }
-
-.reservation-details label {
-    display: block;
-    font-size: 12px;
-    color: #888;
-    margin-bottom: 5px;
-}
 
 .reservation-details input,
 .reservation-details select {
@@ -76,7 +98,6 @@
 }
 
 .reserve-btn {
-    display: block;
     width: 100%;
     padding: 10px;
     font-size: 16px;
@@ -85,7 +106,6 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    margin-top: 10px;
     transition: background-color 0.3s;
 }
 
@@ -93,89 +113,16 @@
         background-color: #e14b4f;
     }
 
-.price-details {
-    margin-top: 15px;
-    font-size: 14px;
-    color: #666;
-}
-
-    .price-details p {
-        display: flex;
-        justify-content: space-between;
-        margin: 5px 0;
-    }
-
-    .price-details #total-price {
-        font-weight: bold;
-        color: #000;
-    }
-
-/
-.details {
-    margin-top: 40px;
-}
-
-.features {
-    list-style: none;
-    padding: 0;
-}
-
-    .features li {
-        margin: 5px 0;
-    }
-
-
-.calendar-container {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-    margin-top: 20px;
-}
-
-.calendar {
-    flex: 1;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-    padding: 10px;
-}
-
-    .calendar h3 {
-        text-align: center;
-        margin-bottom: 10px;
-        font-size: 20px;
-    }
-
-#availability-calendar {
-    display: inline-block;
-    width: 100%;
-    max-width: 600px;
-}
-
-
-
-
+/* Responsive Ayarlar */
 @media (max-width: 768px) {
-    .house-container {
-        flex-direction: column; 
+    .photo-gallery {
+        grid-template-columns: 1fr;
     }
 
-    .photo-slider {
-        width: 100%; 
-
-    .swiper-slide {
-        flex: 0 0 calc(50% - 10px); 
-    }
+    
 
     .reservation-panel {
-        margin-left: 0;
         max-width: 100%;
+        
     }
-
-    .calendar-container {
-        flex-direction: column; 
-    }
-
-    .calendar {
-        margin-bottom: 20px;
-    }
+}

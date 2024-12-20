@@ -12,11 +12,14 @@ builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30); // Oturum süresi (30 dakika)
     options.Cookie.HttpOnly = true;
-    options.Cookie.IsEssential = true; // GDPR uyumu için gerekli
+    options.Cookie.IsEssential = true; // GDPR uyumu
 });
 
-// MariaDB bağlantısını kontrol et
+// Database bağlantısı ve kontrolü
 string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 try
 {
@@ -30,10 +33,6 @@ catch (Exception ex)
 {
     Console.WriteLine($"Database bağlantı hatası: {ex.Message}");
 }
-
-// Add AppDbContext for Entity Framework Core
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))); // MySQL/MariaDB bağlantısı
 
 var app = builder.Build();
 
@@ -54,13 +53,10 @@ app.UseSession();
 
 app.UseAuthorization();
 
-// Kökte (/) /Home.cshtml'e yönlendirme
-app.MapGet("/", (context) =>
-{
-    context.Response.Redirect("/Home");
-    return Task.CompletedTask;
-});
+// Ana sayfaya yönlendirme
+app.MapGet("/", () => Results.Redirect("/home"));
 
+// Razor Pages
 app.MapRazorPages();
 
 app.Run();

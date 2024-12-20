@@ -1,0 +1,170 @@
+﻿@page "{id:int}"
+@model DetailsModel
+@{
+    ViewData["Title"] = "Property Details";
+}
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+<link rel="stylesheet" href="/css/site.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+<link rel="stylesheet" href="/css/house1.css" />
+<script src="/js/house1.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+<div class="house-container">
+    <!-- Fotoğraf Galerisi -->
+    <div class="photo-gallery">
+        <div class="gallery-main">
+            <img src="~/media/houses/h_@Model.Property.propid/1.jpeg" alt="Property Image">
+        </div>
+        @if (Model.Property.ct_image >= 3)
+        {
+            <img src="~/media/houses/h_@Model.Property.propid/1.jpeg" alt="Property Image">
+            <img src="~/media/houses/h_@Model.Property.propid/1.jpeg" alt="Property Image">
+            <img src="~/media/houses/h_@Model.Property.propid/1.jpeg" alt="Property Image">
+            <img src="~/media/houses/h_@Model.Property.propid/1.jpeg" alt="Property Image">
+        }
+        else
+        {
+            <p>Daha fazla fotoğraf mevcut değil.</p>
+        }
+    </div>
+
+    <div class="photo-gallery">
+        <div class="gallery-main">
+            <img src="~/media/houses/h_@Model.Property.propid/1.jpeg" alt="Property Image">
+        </div>
+        @if (Model.Property.ct_image >= 3)
+        {
+            <img src="~/media/houses/h_@Model.Property.propid/1.jpeg" alt="Property Image">
+            <img src="~/media/houses/h_@Model.Property.propid/1.jpeg" alt="Property Image">
+            <img src="~/media/houses/h_@Model.Property.propid/1.jpeg" alt="Property Image">
+            <img src="~/media/houses/h_@Model.Property.propid/1.jpeg" alt="Property Image">
+        }
+        else
+        {
+            <p>Daha fazla fotoğraf mevcut değil.</p>
+        }
+    </div>
+
+        <!-- Rezervasyon Paneli -->
+        <div class="reservation-panel-container">
+            <div class="reservation-panel">
+                <h3>@Model.Property.pricenight ₺ per night</h3>
+                <form method="get" action="/houses/reservation">
+                    <label for="checkin">GİRİŞ</label>
+                    <input type="text" id="checkin" name="checkin" placeholder="Giriş Tarihi" readonly>
+
+                    <label for="checkout">ÇIKIŞ</label>
+                    <input type="text" id="checkout" name="checkout" placeholder="Çıkış Tarihi" readonly>
+
+                    <label for="guests">MİSAFİR SAYISI</label>
+                    <select id="guests" name="guests">
+                        @for (int i = 1; i <= Model.Property.guests; i++)
+                        {
+                            <option value="@i">@i misafir</option>
+                        }
+                    </select>
+
+                    <button type="submit" class="btn btn-primary">Rezerve Et</button>
+
+                    <p>Henüz sizden tahsilat yapılmayacak</p>
+                    <div class="price-details">
+                        <p><span id="total-nights">0</span> gece</p>
+                        <p>Toplam: <span id="total-price">0</span> ₺</p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+<br />
+<br />
+<div class="rating-summary">
+    <h3>⭐ @Model.Property.rating · @Model.TotalReviews değerlendirme</h3>
+</div>
+<div class="details">
+    <h2>@Model.Property.title Neler Sunuyor?</h2>
+    <p>@Model.Property.description</p>
+
+    <h3>Uygunluk Takvimleri</h3>
+    <div class="calendar-container">
+        <div id="calendar1" class="calendar"></div>
+    </div>
+</div>
+
+<script>
+    flatpickr("#calendar1", {
+        mode: "range",
+        inline: true,
+        dateFormat: "Y-m-d",
+        showMonths: 2, // Aynı anda 2 ay göster
+        minDate: "today",
+        onChange: function(selectedDates) {
+            if (selectedDates.length === 2) {
+                const checkinDate = selectedDates[0].toISOString().split('T')[0];
+                const checkoutDate = selectedDates[1].toISOString().split('T')[0];
+                document.getElementById('checkin').value = checkinDate;
+                document.getElementById('checkout').value = checkoutDate;
+
+                // Toplam gün hesaplama
+                const nights = (selectedDates[1] - selectedDates[0]) / (1000 * 3600 * 24);
+                document.getElementById('total-nights').innerText = nights;
+                document.getElementById('total-price').innerText =
+                    (nights * @Model.Property.pricenight).toLocaleString() ;
+            }
+        },
+    });
+</script>
+
+<div class="reviews-container">
+    <!-- Değerlendirme Puanları -->
+    <br />
+    <br />
+
+    <!-- Yorumlar -->
+    @if (HttpContext.Session.GetString("UserEmail") != null)
+    {
+        <!-- Kullanıcı giriş yapmışsa yorum alanını göster -->
+        <form method="post">
+            <label for="rating">Puan:</label>
+            <input type="number" id="rating" name="Rating" min="1" max="5" step="0.1" required />
+
+            <label for="comment">Yorum:</label>
+            <textarea id="comment" name="Comment" placeholder="Yorumunuzu yazın..." required></textarea>
+
+            <button type="submit" class="btn btn-primary">Yorum Yap</button>
+        </form>
+    }
+    else
+    {
+        <!-- Giriş yapılmamış kullanıcı için uyarı -->
+        <p style="color:red;">
+            Yorum yapabilmek için <a href="/home/login">giriş yapmalısınız</a>.
+        </p>
+    }
+    <br />
+    @if (Model.Reviews != null && Model.Reviews.Any())
+    {
+        @foreach (var review in Model.Reviews.Take(3))
+        {
+            <div class="reviews-grid">
+                <div class="reviews-left">
+                    <div class="review">
+                        <img src="/media/profile.jpg" alt="@review.User.Username" class="profile-pic">
+                        <div>
+                            <h4>@review.User.Username |⭐@review.rating </h4>
+                            <p><strong>@review.CreatedAt.ToString("MMMM yyyy")</strong></p>
+                            <p>@review.comment</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <p>Henüz değerlendirme yok.</p>
+    }
+</div>

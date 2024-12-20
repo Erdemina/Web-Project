@@ -45,7 +45,7 @@ namespace Web_Project.Pages.home
                 Username = Username,
                 Email = Email,
                 PasswordHash = hashedPassword,
-                Role = "user",
+                Role = UserRole.User, // Enum kullanımı ile varsayılan rol atanıyor
                 CreatedAt = DateTime.Now
             };
 

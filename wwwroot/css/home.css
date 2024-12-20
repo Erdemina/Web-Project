@@ -140,15 +140,15 @@
     line-height: 1.6;
 }
 
-.post a {
+.posts a {
     text-decoration: none; /* Altı çizgiyi kaldırır */
     color: inherit; /* Varsayılan metin rengini kullanır */
     transition: none; /* Geçiş efektlerini devre dışı bırakır */
 }
 
-    .post a:hover,
-    .post a:focus,
-    .post a:active {
+    .posts a:hover,
+    .posts a:focus,
+    .posts a:active {
         text-decoration: none; /* Hover durumunda da altı çizgiyi kaldırır */
         color: inherit; /* Renk değişimini devre dışı bırakır */
         background-color: transparent; /* Arkaplan rengini kaldırır */
