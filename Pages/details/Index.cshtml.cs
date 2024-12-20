@@ -39,7 +39,7 @@ namespace Web_Project.Pages.details
         {
             if (!HttpContext.Session.Keys.Contains("UserEmail"))
             {
-                TempData["ErrorMessage"] = "Yorum yapabilmek için giriþ yapmalýsýnýz!";
+                TempData["ErrorMessage"] = "Yorum yapabilmek iï¿½in giriï¿½ yapmalï¿½sï¿½nï¿½z!";
                 return RedirectToPage("/home/login");
             }
 
@@ -60,7 +60,7 @@ namespace Web_Project.Pages.details
                 _context.Reviews.Add(newReview);
                 _context.SaveChanges();
 
-                // Ortalama rating'i güncelle
+                // Ortalama rating'i gï¿½ncelle
                 UpdatePropertyRating(id);
             }
 
@@ -118,18 +118,18 @@ namespace Web_Project.Pages.details
 
         private void UpdatePropertyRating(int propertyId)
         {
-            // Ortalama rating'i hesapla ve yuvarla (2,1 formatý)
+            // Ortalama rating'i hesapla ve yuvarla (2,1 formatï¿½)
             var averageRating = _context.Reviews
                 .Where(r => r.PropertyId == propertyId)
                 .Average(r => r.rating);
 
-            var roundedRating = Math.Round(averageRating, 1); // 2,1 formatýnda yuvarlama
+            var roundedRating = Math.Round(averageRating, 1); // 2,1 formatï¿½nda yuvarlama
 
-            // Property'yi bul ve rating'i güncelle
+            // Property'yi bul ve rating'i gï¿½ncelle
             var property = _context.Properties.Find(propertyId);
             if (property != null)
             {
-                property.rating = (float)roundedRating; // Yuvarlanmýþ deðeri atýyoruz
+                property.rating = (float)roundedRating; // Yuvarlanmï¿½ï¿½ deï¿½eri atï¿½yoruz
                 _context.Properties.Update(property);
                 _context.SaveChanges();
             }

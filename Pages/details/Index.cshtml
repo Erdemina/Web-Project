@@ -13,64 +13,72 @@
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 <div class="house-container">
+    <!-- Fotoğraf Galerisi -->
     <div class="photo-gallery">
-        <!-- Sol tarafta büyük ana fotoğraf -->
-        @if(Model.Property.ct_image >= 3)
-        {
         <div class="gallery-main">
             <img src="~/media/houses/h_@Model.Property.propid/1.jpeg" alt="Property Image">
         </div>
-        <!-- Sağ tarafta iki küçük fotoğraf -->
-        <div class="gallery-right">
-            <img src="~/media/houses/h_@Model.Property.propid/2.jpeg" alt="Property Image">
-            <img src="~/media/houses/h_@Model.Property.propid/3.jpeg" alt="Property Image">
-        </div>
-        }
-        else{
+        @if (Model.Property.ct_image >= 3)
+        {
+            <img src="~/media/houses/h_@Model.Property.propid/1.jpeg" alt="Property Image">
+            <img src="~/media/houses/h_@Model.Property.propid/1.jpeg" alt="Property Image">
+            <img src="~/media/houses/h_@Model.Property.propid/1.jpeg" alt="Property Image">
             <img src="~/media/houses/h_@Model.Property.propid/1.jpeg" alt="Property Image">
         }
-        <!-- Tüm fotoğrafları göster butonu -->
-        <button id="show-all-btn" onclick="showAllPhotos()">Tüm fotoğrafları göster</button>
+        else
+        {
+            <p>Daha fazla fotoğraf mevcut değil.</p>
+        }
     </div>
 
-    <!-- Modal İçeriği (düzenlencek) -->
-    <div id="photo-modal" class="modal">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <div class="modal-content">
-            s
+    <div class="photo-gallery">
+        <div class="gallery-main">
+            <img src="~/media/houses/h_@Model.Property.propid/1.jpeg" alt="Property Image">
+        </div>
+        @if (Model.Property.ct_image >= 3)
+        {
+            <img src="~/media/houses/h_@Model.Property.propid/1.jpeg" alt="Property Image">
+            <img src="~/media/houses/h_@Model.Property.propid/1.jpeg" alt="Property Image">
+            <img src="~/media/houses/h_@Model.Property.propid/1.jpeg" alt="Property Image">
+            <img src="~/media/houses/h_@Model.Property.propid/1.jpeg" alt="Property Image">
+        }
+        else
+        {
+            <p>Daha fazla fotoğraf mevcut değil.</p>
+        }
+    </div>
+
+        <!-- Rezervasyon Paneli -->
+        <div class="reservation-panel-container">
+            <div class="reservation-panel">
+                <h3>@Model.Property.pricenight ₺ per night</h3>
+                <form method="get" action="/houses/reservation">
+                    <label for="checkin">GİRİŞ</label>
+                    <input type="text" id="checkin" name="checkin" placeholder="Giriş Tarihi" readonly>
+
+                    <label for="checkout">ÇIKIŞ</label>
+                    <input type="text" id="checkout" name="checkout" placeholder="Çıkış Tarihi" readonly>
+
+                    <label for="guests">MİSAFİR SAYISI</label>
+                    <select id="guests" name="guests">
+                        @for (int i = 1; i <= Model.Property.guests; i++)
+                        {
+                            <option value="@i">@i misafir</option>
+                        }
+                    </select>
+
+                    <button type="submit" class="btn btn-primary">Rezerve Et</button>
+
+                    <p>Henüz sizden tahsilat yapılmayacak</p>
+                    <div class="price-details">
+                        <p><span id="total-nights">0</span> gece</p>
+                        <p>Toplam: <span id="total-price">0</span> ₺</p>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
-    <div class="reservation-panel">
-        <h3>@Model.Property.pricenight ₺ per night</h3>
-        <form method="get" action="/houses/reservation">
-            <label for="checkin">GİRİŞ</label>
-            <input type="text" id="checkin" name="checkin" placeholder="Giriş Tarihi" readonly>
-
-            <label for="checkout">ÇIKIŞ</label>
-            <input type="text" id="checkout" name="checkout" placeholder="Çıkış Tarihi" readonly>
-
-            <label for="guests">MİSAFİR SAYISI</label>
-            <select id="guests" name="guests">
-                @for (int i = 1; i <= Model.Property.guests; i++)
-                {
-                    <option value="@i">@i misafir</option>
-                    
-                }
-
-                
-            </select>
-
-            <button type="submit" class="btn btn-primary">Rezerve Et</button>
-
-            <p>Henüz sizden tahsilat yapılmayacak</p>
-            <div class="price-details">
-                <p> <span id="total-nights">0</span> gece</p>
-                <p>Toplam: <span id="total-price">0</span> ₺</p>
-            </div>
-        </form>
-    </div>
-</div>
 <br />
 <br />
 <div class="rating-summary">
