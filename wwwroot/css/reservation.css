@@ -49,3 +49,120 @@
     .btn:hover {
         background-color: #e14b4f;
     }
+payment.css:
+.payment-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+    .payment-container h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+.card-input-group {
+    position: relative;
+}
+
+.card-number-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+    .card-number-container input {
+        flex: 1;
+        padding: 10px; 
+        font-size: 16px; 
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding-right: 60px; 
+    }
+
+    .card-number-container img {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 40px;
+        height: auto;
+        display: none;
+    }
+
+input[type="text"],
+input[type="email"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px; 
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+    button:hover {
+        background-color: #0056b3;
+    }
+reservation.cshtml.cs:
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Collections.Generic;
+
+namespace Web_Project.Pages.Reservation
+{
+    public class ReservationModel : PageModel
+    {
+        [BindProperty]
+        public ReservationFormModel ReservationData { get; set; } = new ReservationFormModel();
+
+        public void OnGet()
+        {
+        }
+
+        public IActionResult OnPost()
+        {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            return RedirectToPage("/Reservation/Payment");
+        }
+
+        public class ReservationFormModel
+        {
+            public string FullName { get; set; } = string.Empty;
+            public string Email { get; set; } = string.Empty;
+            public string Phone { get; set; } = string.Empty;
+            public int Guests { get; set; } = 1;
+            public List<string> BirthDates { get; set; } = new List<string>();
+            public string Address { get; set; } = string.Empty;
+        }
+    }
+}
