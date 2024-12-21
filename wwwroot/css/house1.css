@@ -1,4 +1,3 @@
-/* Genel Konteyner Ayarları */
 
 
 /* Fotoğraf Galerisi */
@@ -35,16 +34,21 @@
             border-radius: 8px;
         }
 
-/* Sol ve Sağ Paneller */
+/* Genel Konteyner Ayarları */
 .content-wrapper {
     display: flex;
     justify-content: space-between;
     gap: 20px;
+    margin: 20px auto;
+    max-width: 1200px;
 }
 
 /* Sol Panel */
 .left-panel {
     flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 /* Mekanın Sağladıkları */
@@ -53,7 +57,6 @@
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 10px;
-    margin-bottom: 20px;
 }
 
     .amenities-container h2 {
@@ -81,7 +84,37 @@
         color: #666;
     }
 
+/* Takvim ve Harita */
+.calendar-map-container {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    align-items: flex-start;
+}
 
+.calendar-container {
+    flex: 1;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+}
+
+.map-container {
+    flex: 1;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.map-wrapper iframe {
+    width: 100%;
+    height: 300px;
+    border-radius: 10px;
+    border: none;
+}
 
 /* Sağ Panel */
 .right-panel {
@@ -137,42 +170,42 @@
     font-size: 14px;
     color: #666;
 }
-
-/* Yorumlar */
-.reviews-container {
-    padding: 20px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    margin-top: 20px;
+.reviews-grid {
+    display: flex;
+    gap: 40px;
 }
 
-    .reviews-container h2 {
-        font-size: 20px;
-        margin-bottom: 15px;
-        color: #333;
-    }
+.reviews-left,
+.reviews-right {
+    flex: 1;
+}
 
 .review {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
     margin-bottom: 20px;
-    border-bottom: 1px solid #ddd;
-    padding-bottom: 10px;
-}
-.review img{
-    width:60px;
-    
 }
 
-    .review h4 {
-        font-size: 16px;
-        margin: 5px 0;
-        color: #444;
-    }
+.profile-pic {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
 
-    .review p {
-        font-size: 14px;
-        color: #666;
-    }
+.review h4 {
+    margin: 0;
+    font-size: 16px;
+    color: #000;
+}
+
+.review p {
+    margin: 5px 0;
+    color: #555;
+    font-size:  14px;
+}
+
 
 /* Responsive Ayarlar */
 @media (max-width: 768px) {
@@ -180,8 +213,8 @@
         flex-direction: column;
     }
 
-    .photo-gallery .gallery-main img {
-        height: 300px;
+    .calendar-map-container {
+        flex-direction: column;
     }
 
     .right-panel {
