@@ -4,72 +4,61 @@
     ViewData["Title"] = "Property Details";
 }
 
-
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
 <link rel="stylesheet" href="/css/site.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 <link rel="stylesheet" href="/css/house1.css" />
-<script src="/js/house1.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
-<div class="house-container">
+<div class="container">
     <!-- Fotoğraf Galerisi -->
     <div class="photo-gallery">
         <div class="gallery-main">
-            <img src="~/media/houses/h_@Model.Property.propid/1.jpeg" alt="Property Image">
+            <img src="~/media/houses/h_@Model.Property.propid/1.jpeg" alt="Ana Görsel">
         </div>
-        @if (Model.Property.ct_image >= 3)
-        {
-            <img src="~/media/houses/h_@Model.Property.propid/1.jpeg" alt="Property Image">
-            <img src="~/media/houses/h_@Model.Property.propid/1.jpeg" alt="Property Image">
-            <img src="~/media/houses/h_@Model.Property.propid/1.jpeg" alt="Property Image">
-            <img src="~/media/houses/h_@Model.Property.propid/1.jpeg" alt="Property Image">
-        }
-        else
-        {
-            <p>Daha fazla fotoğraf mevcut değil.</p>
-        }
+        <div class="gallery-thumbnails">
+            <img src="~/media/houses/h_@Model.Property.propid/2.jpeg" alt="Küçük Görsel 1">
+            <img src="~/media/houses/h_@Model.Property.propid/3.jpeg" alt="Küçük Görsel 2">
+            <img src="~/media/houses/h_@Model.Property.propid/4.jpeg" alt="Küçük Görsel 3">
+            <img src="~/media/houses/h_@Model.Property.propid/5.jpeg" alt="Küçük Görsel 4">
+        </div>
     </div>
 
-    <div class="photo-gallery">
-        <div class="gallery-main">
-            <img src="~/media/houses/h_@Model.Property.propid/1.jpeg" alt="Property Image">
+    <!-- Sol ve Sağ Paneller -->
+    <div class="content-wrapper">
+        <!-- Sol Panel -->
+        <div class="left-panel">
+            <!-- Bu mekan size neler sunuyor -->
+            <div class="amenities-container">
+                <h2>Bu mekan size neler sunuyor?</h2>
+                <div class="amenities-grid">
+                    <div class="amenity-item"><i class="fas fa-tree"></i> Bahçe manzarası</div>
+                    <div class="amenity-item"><i class="fas fa-wifi"></i> Wifi</div>
+                    <div class="amenity-item"><i class="fas fa-swimming-pool"></i> Havuz</div>
+                    <div class="amenity-item"><i class="fas fa-car"></i> Ücretsiz otopark</div>
+                </div>
+                <button class="show-all-button">Tüm olanakları göster</button>
+            </div>
         </div>
-        @if (Model.Property.ct_image >= 3)
-        {
-            <img src="~/media/houses/h_@Model.Property.propid/1.jpeg" alt="Property Image">
-            <img src="~/media/houses/h_@Model.Property.propid/1.jpeg" alt="Property Image">
-            <img src="~/media/houses/h_@Model.Property.propid/1.jpeg" alt="Property Image">
-            <img src="~/media/houses/h_@Model.Property.propid/1.jpeg" alt="Property Image">
-        }
-        else
-        {
-            <p>Daha fazla fotoğraf mevcut değil.</p>
-        }
-    </div>
 
-        <!-- Rezervasyon Paneli -->
-        <div class="reservation-panel-container">
+        <!-- Sağ Panel -->
+        <div class="right-panel">
             <div class="reservation-panel">
-                <h3>@Model.Property.pricenight ₺ per night</h3>
+                <h3>@Model.Property.pricenight ₺ / gece</h3>
                 <form method="get" action="/houses/reservation">
-                    <label for="checkin">GİRİŞ</label>
-                    <input type="text" id="checkin" name="checkin" placeholder="Giriş Tarihi" readonly>
-
-                    <label for="checkout">ÇIKIŞ</label>
-                    <input type="text" id="checkout" name="checkout" placeholder="Çıkış Tarihi" readonly>
-
-                    <label for="guests">MİSAFİR SAYISI</label>
+                    <label for="checkin">Giriş Tarihi</label>
+                    <input type="text" id="checkin" name="checkin" placeholder="Giriş Tarihi" readonly />
+                    <label for="checkout">Çıkış Tarihi</label>
+                    <input type="text" id="checkout" name="checkout" placeholder="Çıkış Tarihi" readonly />
+                    <label for="guests">Misafir Sayısı</label>
                     <select id="guests" name="guests">
                         @for (int i = 1; i <= Model.Property.guests; i++)
                         {
                             <option value="@i">@i misafir</option>
                         }
                     </select>
-
-                    <button type="submit" class="btn btn-primary">Rezerve Et</button>
-
-                    <p>Henüz sizden tahsilat yapılmayacak</p>
+                    <button type="submit" class="reserve-btn">Rezerve Et</button>
+                    <p class="note">Henüz sizden tahsilat yapılmayacak</p>
                     <div class="price-details">
                         <p><span id="total-nights">0</span> gece</p>
                         <p>Toplam: <span id="total-price">0</span> ₺</p>
@@ -79,92 +68,71 @@
         </div>
     </div>
 
-<br />
-<br />
-<div class="rating-summary">
-    <h3>⭐ @Model.Property.rating · @Model.TotalReviews değerlendirme</h3>
-</div>
-<div class="details">
-    <h2>@Model.Property.title Neler Sunuyor?</h2>
-    <p>@Model.Property.description</p>
+    <!-- Yorumlar -->
+    <div class="reviews-container">
+        <h2>Yorumlar</h2>
+        @if (HttpContext.Session.GetString("UserEmail") != null)
+        {
+            <form method="post">
+                <label for="rating">Puan:</label>
+                <input type="number" id="rating" name="Rating" min="1" max="5" step="0.1" required />
+                <label for="comment">Yorum:</label>
+                <textarea id="comment" name="Comment" placeholder="Yorumunuzu yazın..." required></textarea>
+                <button type="submit" class="btn btn-primary">Yorum Yap</button>
+            </form>
+        }
+        else
+        {
+            <p style="color:red;">Yorum yapabilmek için <a href="/home/login">giriş yapmalısınız</a>.</p>
+        }
 
-    <h3>Uygunluk Takvimleri</h3>
-    <div class="calendar-container">
-        <div id="calendar1" class="calendar"></div>
+        @if (Model.Reviews != null && Model.Reviews.Any())
+        {
+            @foreach (var review in Model.Reviews.Take(3))
+            {
+                <div class="review">
+                    <img src="/media/profile.jpg" alt="@review.User.Username" class="profile-pic">
+                    <h4>@review.User.Username |⭐@review.rating</h4>
+                    <p><strong>@review.CreatedAt.ToString("MMMM yyyy")</strong></p>
+                    <p>@review.comment</p>
+                </div>
+            }
+        }
+        else
+        {
+            <p>Henüz değerlendirme yok.</p>
+        }
     </div>
 </div>
 
 <script>
-    flatpickr("#calendar1", {
-        mode: "range",
-        inline: true,
-        dateFormat: "Y-m-d",
-        showMonths: 2, // Aynı anda 2 ay göster
-        minDate: "today",
-        onChange: function(selectedDates) {
-            if (selectedDates.length === 2) {
-                const checkinDate = selectedDates[0].toISOString().split('T')[0];
-                const checkoutDate = selectedDates[1].toISOString().split('T')[0];
-                document.getElementById('checkin').value = checkinDate;
-                document.getElementById('checkout').value = checkoutDate;
+    document.addEventListener("DOMContentLoaded", function () {
+        const checkinInput = document.querySelector("#checkin");
+        const checkoutInput = document.querySelector("#checkout");
+        const totalNightsDisplay = document.getElementById("total-nights");
+        const totalPriceDisplay = document.getElementById("total-price");
 
-                // Toplam gün hesaplama
-                const nights = (selectedDates[1] - selectedDates[0]) / (1000 * 3600 * 24);
-                document.getElementById('total-nights').innerText = nights;
-                document.getElementById('total-price').innerText =
-                    (nights * @Model.Property.pricenight).toLocaleString() ;
-            }
-        },
+        flatpickr("#checkin", {
+            dateFormat: "Y-m-d",
+            minDate: "today",
+            onChange: function (selectedDates) {
+                if (selectedDates.length > 0) {
+                    const selectedDate = selectedDates[0];
+                    flatpickr("#checkout", {
+                        dateFormat: "Y-m-d",
+                        minDate: selectedDate,
+                        onChange: function (endDates) {
+                            if (endDates.length > 0) {
+                                const nights = (endDates[0] - selectedDate) / (1000 * 3600 * 24);
+                                totalNightsDisplay.innerText = nights > 0 ? nights : 0;
+                                totalPriceDisplay.innerText = nights > 0
+                                    ? (nights * @Model.Property.pricenight).toLocaleString()
+                                    : 0;
+                            }
+                        },
+                    });
+                }
+            },
+        });
     });
 </script>
-
-<div class="reviews-container">
-    <!-- Değerlendirme Puanları -->
-    <br />
-    <br />
-
-    <!-- Yorumlar -->
-    @if (HttpContext.Session.GetString("UserEmail") != null)
-    {
-        <!-- Kullanıcı giriş yapmışsa yorum alanını göster -->
-        <form method="post">
-            <label for="rating">Puan:</label>
-            <input type="number" id="rating" name="Rating" min="1" max="5" step="0.1" required />
-
-            <label for="comment">Yorum:</label>
-            <textarea id="comment" name="Comment" placeholder="Yorumunuzu yazın..." required></textarea>
-
-            <button type="submit" class="btn btn-primary">Yorum Yap</button>
-        </form>
-    }
-    else
-    {
-        <!-- Giriş yapılmamış kullanıcı için uyarı -->
-        <p style="color:red;">
-            Yorum yapabilmek için <a href="/home/login">giriş yapmalısınız</a>.
-        </p>
-    }
-    <br />
-    @if (Model.Reviews != null && Model.Reviews.Any())
-    {
-        @foreach (var review in Model.Reviews.Take(3))
-        {
-            <div class="reviews-grid">
-                <div class="reviews-left">
-                    <div class="review">
-                        <img src="/media/profile.jpg" alt="@review.User.Username" class="profile-pic">
-                        <div>
-                            <h4>@review.User.Username |⭐@review.rating </h4>
-                            <p><strong>@review.CreatedAt.ToString("MMMM yyyy")</strong></p>
-                            <p>@review.comment</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        }
-    }
-    else
-    {
-        <p>Henüz değerlendirme yok.</p>
-    }
-</div>
