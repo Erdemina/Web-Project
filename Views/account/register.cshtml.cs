@@ -5,7 +5,7 @@ using System.Text;
 using Web_Project.Data;
 using Web_Project.models;
 
-namespace Web_Project.Pages.home
+namespace Web_Project.Views.account
 {
     public class RegisterModel : PageModel
     {

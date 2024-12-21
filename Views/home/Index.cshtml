@@ -1,16 +1,17 @@
-﻿@page
-@model IndexModel
+﻿@model List<Web_Project.Models.Property>
+
 @{
     ViewData["Title"] = "Home page";
 }
+
 <link rel="stylesheet" href="/css/site.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 <link rel="stylesheet" href="/css/home.css" />
 
 <div class="posts">
-    @foreach (var property in Model.Properties)
+    @foreach (var property in Model)
     {
-        <a asp-page="/details/Index" asp-route-id="@property.propid" class="post-link">
+        <a asp-controller="Details" asp-action="Index" asp-route-id="@property.propid" class="post-link">
             <div class="post">
                 <div class="post-image">
                     <img src="~/media/houses/h_@property.propid/1.jpeg" alt="Property Image">
@@ -26,4 +27,3 @@
         </a>
     }
 </div>
-

@@ -5,7 +5,7 @@ using Web_Project.Data; // AppDbContext için namespace
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container
-builder.Services.AddRazorPages();
+builder.Services.AddControllersWithViews(); // MVC için gerekli hizmeti ekledik
 
 // Add session support
 builder.Services.AddSession(options =>
@@ -39,7 +39,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Error");
+    app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
 
@@ -53,10 +53,9 @@ app.UseSession();
 
 app.UseAuthorization();
 
-// Ana sayfaya yönlendirme
-app.MapGet("/", () => Results.Redirect("/home"));
-
-// Razor Pages
-app.MapRazorPages();
+// MVC rotalarını tanımla
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}"); // Varsayılan rota
 
 app.Run();
