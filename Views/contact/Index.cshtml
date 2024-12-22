@@ -1,22 +1,19 @@
 ﻿@page
 @{
-    ViewData["Title"] = "Contact page";
 }
 
 <!-- FontAwesome CDN -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 
-
 <!-- Contact Page CSS -->
 <link rel="stylesheet" href="~/css/contact.css" />
 <link rel="stylesheet" href="/css/site.css" />
-
 
 <section id="contact">
     <div class="contact-container">
         <h2>Bize Ulaşın</h2>
         <p>Seyahat planlarınız veya sorularınız için bizimle iletişime geçmekten çekinmeyin.</p>
-        <form action="#" method="post">
+        <form asp-action="Submit" asp-controller="Contact" method="post">
             <div class="form-group">
                 <label for="name">Adınız</label>
                 <input type="text" id="name" name="name" placeholder="Adınızı girin" required>

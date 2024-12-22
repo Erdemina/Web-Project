@@ -1,18 +1,13 @@
-﻿
-.posts {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 15px 20px;
-}
-
-.posts {
+﻿.posts {
     display: flex;
     flex-wrap: wrap;
     gap: 16px;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
     padding: 20px;
 }
+
+
 
 .post {
     width: 300px;

@@ -48,7 +48,7 @@ namespace Web_Project.Data
                 entity.Property(p => p.CreatedAt).HasDefaultValueSql("GETDATE()");
 
                 // Property - PropertyView ilişkisi
-                entity.HasMany(p => p.Views)
+                entity.HasMany(p => p.PropertyViews)
                       .WithOne(v => v.Property)
                       .HasForeignKey(v => v.PropertyId)
                       .OnDelete(DeleteBehavior.Cascade);

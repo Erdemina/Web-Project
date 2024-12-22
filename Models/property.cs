@@ -25,16 +25,16 @@ namespace Web_Project.Models
         public DateTime CreatedAt { get; set; }
 
         // Navigation Property: PropertyViews ile ilişki
-        public ICollection<PropertyView> Views { get; set; }
+        public ICollection<PropertyView> PropertyViews { get; set; }
 
         [NotMapped]
         public int ct_image;
 
         public int guests;
 
-
         // Computed Property: Son 7 gündeki ziyaret sayısı
         [NotMapped]
-        public int ViewsLast7Days => Views?.Count(v => v.ViewedAt >= DateTime.Now.AddDays(-7)) ?? 0;
+        public int ViewsLast7Days => PropertyViews?.Count(v => v.ViewedAt >= DateTime.Now.AddDays(-7)) ?? 0;
     }
+
 }

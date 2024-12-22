@@ -57,6 +57,59 @@ namespace Web_Project.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Register(string username, string email, string password)
+        {
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+            {
+                ViewBag.ErrorMessage = "Tüm alanlar gereklidir.";
+                return View();
+            }
+
+            // Kullanıcı var mı kontrolü
+            if (_context.Users.Any(u => u.Email == email || u.Username == username))
+            {
+                ViewBag.ErrorMessage = "Bu e-posta veya kullanıcı adı zaten alınmış.";
+                return View();
+            }
+
+            // Şifreyi hashle
+            var hashedPassword = HashPassword(password);
+
+            // Yeni kullanıcıyı oluştur
+            var user = new User
+            {
+                Username = username,
+                Email = email,
+                PasswordHash = hashedPassword,
+                Role = UserRole.User, // Enum kullanımı ile varsayılan rol atanıyor
+                CreatedAt = DateTime.Now
+            };
+
+            // Veritabanına ekle
+            _context.Users.Add(user);
+            _context.SaveChanges();
+
+            // Başarılı işlem sonrası yönlendirme
+            return RedirectToAction("Login");
+        }
+
+        [HttpGet]
+        public IActionResult Logout()
+        {
+            // Session temizle
+            HttpContext.Session.Clear();
+
+            // Ana sayfaya yönlendirme
+            return RedirectToAction("Index", "Home");
+        }
+
         // Kişisel Bilgiler
         [HttpGet]
         public IActionResult PersonalInformation()
@@ -72,6 +125,17 @@ namespace Web_Project.Controllers
             };
 
             return View(personalInfo); // Views/Account/PersonalInformation.cshtml
+        }
+
+        // Şifre hashleme
+        private string HashPassword(string password)
+        {
+            using (var sha256 = SHA256.Create())
+            {
+                var bytes = Encoding.UTF8.GetBytes(password);
+                var hash = sha256.ComputeHash(bytes);
+                return Convert.ToBase64String(hash);
+            }
         }
 
         // Şifre doğrulama

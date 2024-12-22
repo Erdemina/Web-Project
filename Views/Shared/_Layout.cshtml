@@ -30,23 +30,26 @@
             <div class="search-bar">
                 <div class="search-field">
                     <span>Destination</span>
-                    <input list="destinations" name="destination" id="destination" placeholder="Select a region">
+                    <input list="destinations" id="destination" placeholder="Select a region">
                     <datalist id="destinations"></datalist>
                 </div>
                 <div class="search-field">
                     <span>Check-in</span>
-                    <input type="date" placeholder="Add date">
+                    <input type="date" id="checkIn" min="@DateTime.Now.ToString("yyyy-MM-dd")" placeholder="Add date">
                 </div>
                 <div class="search-field">
                     <span>Check-out</span>
-                    <input type="date" placeholder="Add date">
+                    <input type="date" id="checkOut" min="@DateTime.Now.ToString("yyyy-MM-dd")" placeholder="Add date">
                 </div>
                 <div class="search-field">
                     <span>Guests</span>
-                    <input type="number" placeholder="Add guests" min="1">
+                    <input type="number" id="guests" placeholder="Add guests" min="1">
                 </div>
-                <button class="search-button"></button>
+                <button class="search-button" onclick="handleSearch()">Search</button>
             </div>
+
+
+
 
             <!-- Navbar Right Side -->
             <nav class="navbar navbar-expand-lg navbar-light" style="box-shadow:none;">
@@ -63,7 +66,6 @@
                             <ul class="dropdown-menu" aria-labelledby="profileMenuButton">
                                 <li><a class="dropdown-item" href="/account/PersonalInformation">Kişisel Bilgiler</a></li>
                                 <li><a class="dropdown-item" href="/account/Travels">Seyahatler</a></li>
-                                <li><a class="dropdown-item" href="/account/ShareYourHouse">Evinizi Paylaşın</a></li>
                                 <li><a class="dropdown-item text-danger" href="/account/Logout">Çıkış Yap</a></li>
                             </ul>
                         </div>
@@ -109,8 +111,8 @@
                 <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
                     <h5 class="text-uppercase">© 2024 WebProject, Inc.</h5>
                     <p>
-                        <a href="privacy" class="text-decoration-none">Gizlilik</a> ·
-                        <a href="terms" class="text-decoration-none">Şartlar</a>
+                        <a href="~/privacy" class="text-decoration-none">Gizlilik</a> ·
+                        <a href="~/terms" class="text-decoration-none">Şartlar</a>
                     </p>
                 </div>
                 <div class="col-lg-6 col-md-12 text-end">
@@ -129,7 +131,19 @@
 </body>
 
 
+<script>
+        function handleSearch() {
+        const destination = document.getElementById('destination').value;
+        const checkIn = document.getElementById('checkIn').value;
+        const checkOut = document.getElementById('checkOut').value;
+        const guests = document.getElementById('guests').value;
 
+        // URL oluştur ve yönlendir
+        const searchUrl = `/Home/Search?destination=${encodeURIComponent(destination)}&checkIn=${encodeURIComponent(checkIn)}&checkOut=${encodeURIComponent(checkOut)}&guests=${encodeURIComponent(guests)}`;
+        window.location.href = searchUrl;
+    }
+
+</script>
 
 
 
