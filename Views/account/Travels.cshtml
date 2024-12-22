@@ -1,28 +1,38 @@
-﻿@page "/account/Travels"
-<link rel="stylesheet" href="css/travels.css" />
-@{
-    <div class="container mt-5">
-        <h2>Seyahatler</h2>
-        <p class="text-muted">Gelecek rezervasyonlar</p>
-        <div class="reservation-card shadow-sm">
-            <div class="row g-0">
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h5 class="card-title">EVİN ADI,Konum</h5>
-                        <p class="card-date">REZERVASYON TARİHİNİ ÇEK</p>
-                        <p class="card-host">Ev sahibi: EV SAHİBİ ADINI ÇEK</p>
-                        <p class="card-address">EV ADRESİ MAHALLE<br>İL,İLÇE ŞEHİR</p>
-                        <button class="btn btn-outline-secondary">Misafirlere gönderin</button>
+﻿@model List<Web_Project.Models.Booking>
+
+<link rel="stylesheet" href="/css/travels.css" />
+
+<div class="container mt-5">
+    <h2>Seyahatler</h2>
+    <p class="text-muted">Gelecek rezervasyonlar</p>
+
+    @if (ViewBag.Message != null)
+    {
+        <p>@ViewBag.Message</p>
+    }
+    else
+    {
+        @foreach (var booking in Model)
+        {
+            <div class="reservation-card shadow-sm mb-4">
+                <div class="row g-0">
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">@booking.Property.title, @booking.Property.location</h5>
+                            <p class="card-date">
+                                @booking.StartDate.ToString("dd.MM.yyyy") - @booking.EndDate.ToString("dd.MM.yyyy")
+                            </p>
+                            <p class="card-host">Durum: @booking.BookingStatus</p>
+                            <p class="card-address">@booking.Property.description</p>
+                            <p class="card-total-price">Toplam Ücret: @booking.TotalPrice ₺</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <img src="~/media/houses/h_@booking.Property.propid/1.jpeg" alt="@booking.Property.title" class="img-fluid rounded-end">
+                        
                     </div>
                 </div>
-                <div class="col-md-4">
-
-                    <p class="card-photograf">Kanka Buraya Rezervasyon yapılan evin Fotoğraflarını çekmek lazım
-                    <img src="images/berlin-room.jpg" alt="Berlin Room" class="img-fluid rounded-end">
-                    <span class="badge badge-primary">Rezarvasyona kaç gün kaldığını yazabilir</span>
-                </div>
             </div>
-        </div>
-    </div>
-
-}
+        }
+    }
+</div>

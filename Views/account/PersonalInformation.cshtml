@@ -15,35 +15,18 @@
                     <tr>
                         <th>Bilgi</th>
                         <th>Detay</th>
-                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Ad Soyad</td>
-                        <td>@Model.FullName</td>
-                        <td><a href="#" class="btn btn-link">Düzenle</a></td>
+                        <td>Kullanıcı adı</td>
+                        <td>@Context.Session.GetString("Username") </td>
                     </tr>
                     <tr>
-                        <td>Tercih Ettiğiniz Ad</td>
-                        <td>@Model.PreferredName</td>
-                        <td><a href="#" class="btn btn-link">Ekle</a></td>
+                        <td>E-posta adresiniz</td>
+                        <td>@Context.Session.GetString("UserEmail")</td>
                     </tr>
-                    <tr>
-                        <td>E-Posta Adresi</td>
-                        <td>@Model.Email</td>
-                        <td><a href="#" class="btn btn-link">Düzenle</a></td>
-                    </tr>
-                    <tr>
-                        <td>Telefon Numarası</td>
-                        <td>@Model.Phone</td>
-                        <td><a href="#" class="btn btn-link">Düzenle</a></td>
-                    </tr>
-                    <tr>
-                        <td>Adres</td>
-                        <td>@Model.Address</td>
-                        <td><a href="#" class="btn btn-link">Düzenle</a></td>
-                    </tr>
+
                 </tbody>
             </table>
         </div>

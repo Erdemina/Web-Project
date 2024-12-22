@@ -4,6 +4,8 @@ using System.Security.Cryptography;
 using System.Text;
 using Web_Project.Data;
 using Web_Project.Models; // Kullanıcı modeli için
+using Microsoft.EntityFrameworkCore;
+
 
 namespace Web_Project.Controllers
 {
@@ -114,17 +116,7 @@ namespace Web_Project.Controllers
         [HttpGet]
         public IActionResult PersonalInformation()
         {
-            // Örnek kişisel bilgiler
-            var personalInfo = new
-            {
-                FullName = "Ad Soyadı Çek",
-                PreferredName = "Tercih edilen adı çek",
-                Email = "E-posta adresini çek",
-                Phone = "Telefon numarasını çek",
-                Address = "Adresi al"
-            };
-
-            return View(personalInfo); // Views/Account/PersonalInformation.cshtml
+            return View(PersonalInformation); // Views/Account/PersonalInformation.cshtml
         }
 
         // Şifre hashleme
@@ -150,5 +142,40 @@ namespace Web_Project.Controllers
                 return inputHash == storedHash;
             }
         }
+
+        [HttpGet]
+        public IActionResult Travels()
+        {
+            // Kullanıcı oturum bilgilerini al
+            var userEmail = HttpContext.Session.GetString("UserEmail");
+            if (userEmail == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            // Kullanıcıyı veritabanından çek
+            var user = _context.Users.FirstOrDefault(u => u.Email == userEmail);
+            if (user == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            // Kullanıcının rezervasyonlarını al
+            var bookings = _context.Bookings
+                .Where(b => b.UserId == user.UserId)
+                .Include(b => b.Property) // İlgili mülk bilgilerini ekler
+                .ToList();
+
+            // Rezervasyon yoksa uyarı mesajı
+            if (bookings == null || !bookings.Any())
+            {
+                ViewBag.Message = "Gelecek bir rezervasyonunuz bulunmamaktadır.";
+            }
+
+            return View(bookings); // View'e model olarak rezervasyonları gönder
+        }
+
+
     }
 }
+

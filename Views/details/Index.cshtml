@@ -5,27 +5,23 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 <link rel="stylesheet" href="/css/house1.css" />
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
 
 <div class="container">
     <!-- Fotoğraf Galerisi -->
-    @if (Model != null && Model.Property != null)
-    {
-        <div class="photo-gallery">
-            <div class="gallery-main">
-                <img src="~/media/houses/h_@Model.Property.propid/1.jpeg" alt="Ana Görsel">
-            </div>
-            <div class="gallery-thumbnails">
-                <img src="~/media/houses/h_@Model.Property.propid/2.jpeg" alt="Küçük Görsel 1">
-                <img src="~/media/houses/h_@Model.Property.propid/3.jpeg" alt="Küçük Görsel 2">
-                <img src="~/media/houses/h_@Model.Property.propid/4.jpeg" alt="Küçük Görsel 3">
-                <img src="~/media/houses/h_@Model.Property.propid/5.jpeg" alt="Küçük Görsel 4">
-            </div>
+    <div class="photo-gallery">
+        <div class="gallery-main">
+            <img src="~/media/houses/h_@Model.Property.propid/1.jpeg" alt="Ana Görsel">
         </div>
-    }
-    else
-    {
-        <p>Veri yüklenemedi.</p>
-    }
+        <div class="gallery-thumbnails">
+            <img src="~/media/houses/h_@Model.Property.propid/2.jpeg" alt="Küçük Görsel 1">
+            <img src="~/media/houses/h_@Model.Property.propid/3.jpeg" alt="Küçük Görsel 2">
+            <img src="~/media/houses/h_@Model.Property.propid/4.jpeg" alt="Küçük Görsel 3">
+            <img src="~/media/houses/h_@Model.Property.propid/5.jpeg" alt="Küçük Görsel 4">
+        </div>
+    </div>
 
     <!-- Sol ve Sağ Paneller -->
     <div class="content-wrapper">
@@ -33,47 +29,60 @@
         <div class="left-panel">
             <!-- Bu mekan size neler sunuyor -->
             <div class="amenities-container">
-                <h2>@Model.Property.title size neler sunuyor?</h2>
+                <h2>Bu mekan size neler sunuyor?</h2>
                 <div class="amenities-grid">
-                   @Model.Property.description
+                    @Model.Property.description
                 </div>
+            </div>
+
+            <!-- Takvim ve Harita -->
+            <div class="calendar-map-container">
+                <!-- Takvim -->
+                <div class="calendar-container">
+                    <h3>Rezervasyon Takvimi</h3>
+                    <div id="calendar-range"></div>
+                    <p>Toplam Gece: <span id="total-nights">0</span></p>
+                    <p>Toplam Fiyat: <span id="total-price" data-price="1270">0</span> ₺</p>
+                </div>
+                <!-- Harita -->
+                <div class="map-container">
+                    <h3>Bu mekanın konumu</h3>
+                    <div id="map" style="height: 300px; width: 100%;"></div>
+                </div>
+
             </div>
         </div>
 
         <!-- Sağ Panel -->
-        @if (Model.Property != null)
-        {
-            <div class="right-panel">
-                <div class="reservation-panel">
-                    <h3>@Model.Property.pricenight ₺ / gece</h3>
-                    <form method="get" action="/houses/reservation">
-                        <label for="checkin">Giriş Tarihi</label>
-                        <input type="text" id="checkin" name="checkin" placeholder="Giriş Tarihi" readonly />
-                        <label for="checkout">Çıkış Tarihi</label>
-                        <input type="text" id="checkout" name="checkout" placeholder="Çıkış Tarihi" readonly />
-                        <label for="guests">Misafir Sayısı</label>
-                        <select id="guests" name="guests">
-                            @for (int i = 1; i <= Model.Property.guests; i++)
-                            {
-                                <option value="@i">@i misafir</option>
-                            }
-                        </select>
-                        <button type="submit" class="reserve-btn">Rezerve Et</button>
-                        <p class="note">Henüz sizden tahsilat yapılmayacak</p>
-                        <div class="price-details">
-                            <p><span id="total-nights">0</span> gece</p>
-                            <p>Toplam: <span id="total-price">0</span> ₺</p>
-                        </div>
-                    </form>
-                </div>
+        <div class="right-panel">
+            <div class="reservation-panel">
+                <h3>@Model.Property.pricenight ₺ / gece</h3>
+                <form method="get" action="/houses/reservation">
+                    <label for="checkin">Giriş Tarihi</label>
+                    <input type="text" id="checkin" name="checkin" placeholder="Giriş Tarihi" readonly />
+                    <label for="checkout">Çıkış Tarihi</label>
+                    <input type="text" id="checkout" name="checkout" placeholder="Çıkış Tarihi" readonly />
+                    <label for="guests">Misafir Sayısı</label>
+                    <select id="guests" name="guests">
+                        @for (int i = 1; i <= Model.Property.guests; i++)
+                        {
+                            <option value="@i">@i misafir</option>
+                        }
+                    </select>
+                    <button type="submit" class="reserve-btn">Rezerve Et</button>
+                    <p class="note">Henüz sizden tahsilat yapılmayacak</p>
+                    <div class="price-details">
+
+                    </div>
+                </form>
             </div>
-        }
+        </div>
     </div>
 
     <!-- Yorumlar -->
     <div class="reviews-container">
         <h2>Yorumlar</h2>
-        @if (Model.UserEmail != null)
+        @if (@Context.Session.GetString("Username") != null)
         {
             <form method="post">
                 <label for="rating">Puan:</label>
@@ -85,10 +94,10 @@
         }
         else
         {
-            <p style="color:red;">Yorum yapabilmek için <a href="/account/login">giriş yapmalısınız</a>.</p>
+            <p style="color:red;">Yorum yapabilmek için <a href="/home/login">giriş yapmalısınız</a>.</p>
         }
 
-        @if (Model?.Reviews != null && Model.Reviews.Any())
+        @if (Model.Reviews != null && Model.Reviews.Any())
         {
             @foreach (var review in Model.Reviews.Take(3))
             {
@@ -106,3 +115,75 @@
         }
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const checkinInput = document.querySelector("#checkin");
+        const checkoutInput = document.querySelector("#checkout");
+        const totalNightsDisplay = document.getElementById("total-nights");
+        const totalPriceDisplay = document.getElementById("total-price");
+        const pricePerNight = parseFloat(totalPriceDisplay.dataset.price);
+
+        // Flatpickr Takvim Ayarı (Rezervasyon Takvimi)
+        flatpickr("#calendar-range", {
+            mode: "range",
+            inline: true,
+            dateFormat: "Y-m-d",
+            minDate: "today",
+            onChange: function (selectedDates) {
+                if (selectedDates.length === 2) {
+                    // Tarihleri yerel saat dilimine dönüştür
+                    const checkinDate = new Date(
+                        selectedDates[0].getFullYear(),
+                        selectedDates[0].getMonth(),
+                        selectedDates[0].getDate()
+                    );
+                    const checkoutDate = new Date(
+                        selectedDates[1].getFullYear(),
+                        selectedDates[1].getMonth(),
+                        selectedDates[1].getDate()
+                    );
+
+                    const nights = (checkoutDate - checkinDate) / (1000 * 3600 * 24);
+
+                    // Paneldeki Tarih Alanlarını Doldur
+                    checkinInput.value = checkinDate.toISOString().split("T")[0];
+                    checkoutInput.value = checkoutDate.toISOString().split("T")[0];
+
+                    // Toplam Gece ve Fiyat Hesaplama
+                    totalNightsDisplay.innerText = nights > 0 ? nights : 0;
+                    totalPriceDisplay.innerText = nights > 0
+                        ? (nights * pricePerNight).toLocaleString()
+                        : 0;
+                }
+            },
+        });
+
+        // Paneldeki tarih alanlarının tıklanmasını engelle
+        checkinInput.addEventListener("focus", function (event) {
+            event.preventDefault();
+            checkinInput.blur();
+        });
+
+        checkoutInput.addEventListener("focus", function (event) {
+            event.preventDefault();
+            checkoutInput.blur();
+        });
+    });
+    document.addEventListener("DOMContentLoaded", function () {
+        // Harita başlatma
+        const map = L.map('map').setView([40.991292, 28.829555], 15); // Varsayılan konum ve yakınlaştırma
+
+        // OpenStreetMap katmanını ekleme
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+
+        // Marker ekleme
+        const marker = L.marker([40.991292, 28.829555]).addTo(map);
+
+        // Marker popup ile Property.title gösterme
+        marker.bindPopup("<b>@Model.Property.title</b><br>@Model.Property.location").openPopup();
+    });
+</script>
