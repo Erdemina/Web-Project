@@ -15,6 +15,8 @@ namespace Web_Project.Data
         public DbSet<PropertyView> PropertyViews { get; set; } // "PropertyViews" tablosu
         public DbSet<Reviews> Reviews { get; set; } // "Reviews" tablosu
         public DbSet<Booking> Bookings { get; set; }
+        public DbSet<ContactMessage> ContactMessages { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

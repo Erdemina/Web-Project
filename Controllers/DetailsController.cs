@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.IO;
+using System.Linq;
 using Web_Project.Data;
 using Web_Project.Models;
 
@@ -25,6 +27,7 @@ namespace Web_Project.Controllers
             var reviews = _context.Reviews
                 .Include(r => r.User)
                 .Where(r => r.PropertyId == id)
+                .OrderByDescending(r => r.CreatedAt)
                 .ToList();
 
             var last7DaysViews = _context.PropertyViews
@@ -40,41 +43,90 @@ namespace Web_Project.Controllers
                 Last7DaysViews = last7DaysViews
             };
 
-
-
             AddViewRecord(id);
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult AddReview(int id, string comment, float rating)
+        public IActionResult AddReview(int propertyId, float rating, string comment)
+        {
+            // Kullanıcı oturumunu kontrol et
+            var userEmail = HttpContext.Session.GetString("UserEmail");
+            if (userEmail == null)
+            {
+                TempData["ErrorMessage"] = "Yorum yapmak için giriş yapmalısınız!";
+                return RedirectToAction("Index", new { id = propertyId });
+            }
+
+            // Kullanıcıyı getir
+            var user = _context.Users.FirstOrDefault(u => u.Email == userEmail);
+            if (user == null)
+            {
+                TempData["ErrorMessage"] = "Geçersiz kullanıcı.";
+                return RedirectToAction("Index", new { id = propertyId });
+            }
+
+            // Yeni yorum oluştur ve kaydet
+            var newReview = new Reviews
+            {
+                PropertyId = propertyId,
+                UserId = user.UserId,
+                rating = rating,
+                comment = comment,
+                CreatedAt = DateTime.Now
+            };
+
+            _context.Reviews.Add(newReview);
+            _context.SaveChanges();
+
+            // Ortalama puanı güncelle
+            UpdatePropertyRating(propertyId);
+
+            TempData["SuccessMessage"] = "Yorumunuz başarıyla eklendi!";
+            return RedirectToAction("Index", new { id = propertyId });
+        }
+
+        [HttpPost]
+        public IActionResult AddBooking(int id, DateTime checkin, DateTime checkout, int guests)
         {
             if (HttpContext.Session.GetString("UserEmail") == null)
             {
-                TempData["ErrorMessage"] = "Yorum yapabilmek için giriş yapmalısınız!";
-                return RedirectToAction("Login", "Home");
+                TempData["ErrorMessage"] = "Rezervasyon yapmak için giriş yapmalısınız!";
+                return RedirectToAction("Login", "Account");
             }
 
             var userEmail = HttpContext.Session.GetString("UserEmail");
             var user = _context.Users.FirstOrDefault(u => u.Email == userEmail);
 
-            if (user != null && !string.IsNullOrWhiteSpace(comment))
+            if (user == null || checkin >= checkout)
             {
-                var newReview = new Reviews
-                {
-                    UserId = user.UserId,
-                    PropertyId = id,
-                    rating = rating,
-                    comment = comment,
-                    CreatedAt = DateTime.Now
-                };
-
-                _context.Reviews.Add(newReview);
-                _context.SaveChanges();
-
-                UpdatePropertyRating(id);
+                TempData["ErrorMessage"] = "Geçerli bir tarih aralığı seçiniz.";
+                return RedirectToAction("Index", new { id });
             }
 
+            var property = _context.Properties.Find(id);
+            if (property == null)
+            {
+                TempData["ErrorMessage"] = "Seçilen mülk bulunamadı.";
+                return RedirectToAction("Index", new { id });
+            }
+
+            var totalPrice = (checkout - checkin).Days * (decimal)property.pricenight;
+
+            var newBooking = new Booking
+            {
+                UserId = user.UserId,
+                PropertyId = id,
+                StartDate = checkin,
+                EndDate = checkout,
+                TotalPrice = totalPrice,
+                BookingStatus = "Confirmed"
+            };
+
+            _context.Bookings.Add(newBooking);
+            _context.SaveChanges();
+
+            TempData["SuccessMessage"] = "Rezervasyon başarıyla oluşturuldu!";
             return RedirectToAction("Index", new { id });
         }
 
@@ -124,7 +176,5 @@ namespace Web_Project.Controllers
         public List<Reviews> Reviews { get; set; }
         public int TotalReviews { get; set; }
         public int Last7DaysViews { get; set; }
-
-        public string UserEmail { get; set; }
     }
 }

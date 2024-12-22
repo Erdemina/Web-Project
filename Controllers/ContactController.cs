@@ -1,14 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Web_Project.Data;
+using Web_Project.Models;
 
 namespace Web_Project.Controllers
 {
     public class ContactController : Controller
     {
+        private readonly AppDbContext _context;
+
+        public ContactController(AppDbContext context)
+        {
+            _context = context;
+        }
+
         [HttpGet]
         public IActionResult Index()
         {
-            return View(); // Views/Contact/Index.cshtml
+            return View();
         }
 
         [HttpPost]
@@ -20,13 +29,16 @@ namespace Web_Project.Controllers
                 return View("Index");
             }
 
-            // Örnek: Mesajı işlemek veya bir servise göndermek
-            await Task.Run(() => {
-                // Örnek işlem: Loglama
-                System.Diagnostics.Debug.WriteLine($"Yeni iletişim formu mesajı:\nAd: {name}\nE-posta: {email}\nMesaj: {message}");
-            });
+            var contactMessage = new ContactMessage
+            {
+                Name = name,
+                Email = email,
+                Message = message
+            };
 
-            // Başarılı bir işlem sonrası mesaj gönderimi
+            _context.ContactMessages.Add(contactMessage);
+            await _context.SaveChangesAsync();
+
             ViewBag.SuccessMessage = "Mesajınız başarıyla gönderildi! En kısa sürede sizinle iletişime geçeceğiz.";
             return View("Index");
         }

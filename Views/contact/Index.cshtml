@@ -13,6 +13,16 @@
     <div class="contact-container">
         <h2>Bize Ulaşın</h2>
         <p>Seyahat planlarınız veya sorularınız için bizimle iletişime geçmekten çekinmeyin.</p>
+
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <p style="color: red;">@ViewBag.ErrorMessage</p>
+        }
+        @if (ViewBag.SuccessMessage != null)
+        {
+            <p style="color: green;">@ViewBag.SuccessMessage</p>
+        }
+
         <form asp-action="Submit" asp-controller="Contact" method="post">
             <div class="form-group">
                 <label for="name">Adınız</label>
@@ -34,3 +44,4 @@
         </div>
     </div>
 </section>
+
