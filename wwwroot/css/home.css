@@ -1,8 +1,7 @@
 ﻿.posts {
     display: flex;
-    flex-wrap: wrap;
     gap: 16px;
-    justify-content: space-between;
+    justify-content:center;
     align-items: center;
     padding: 20px;
 }
